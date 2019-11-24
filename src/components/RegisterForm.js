@@ -2,6 +2,8 @@ import React from "react";
 import _ from "lodash";
 import { Formik, ErrorMessage } from "formik";
 import { Link } from "react-router-dom";
+import { registerUser } from "../actions";
+import { connect } from "react-redux";
 
 class RegisterForm extends React.Component {
   shouldComponentUpdate(nextProps, nextState) {
@@ -170,7 +172,7 @@ class RegisterForm extends React.Component {
   };
 
   onRegisterButtonClick = values => {
-    console.log(values);
+    this.props.registerUser(values);
   };
 
   renderActions(handleSubmit) {
@@ -180,7 +182,7 @@ class RegisterForm extends React.Component {
           className="ui button positive"
           onClick={handleSubmit}
           type="submit"
-          buttonStyle={{ marginRight: "10px" }}
+          style={{ marginRight: "10px" }}
         >
           Register
         </button>
@@ -196,4 +198,4 @@ class RegisterForm extends React.Component {
   }
 }
 
-export default RegisterForm;
+export default connect(null, { registerUser })(RegisterForm);

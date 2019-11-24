@@ -2,6 +2,8 @@ import React from "react";
 import _ from "lodash";
 import { Formik, ErrorMessage } from "formik";
 import { Link } from "react-router-dom";
+import { signIn } from "../actions";
+import { connect } from "react-redux";
 
 class LoginForm extends React.Component {
   shouldComponentUpdate(nextProps, nextState) {
@@ -9,7 +11,7 @@ class LoginForm extends React.Component {
   }
 
   onLoginFormButtonClick = formikValues => {
-    console.log(formikValues);
+    this.props.signIn(formikValues);
   };
 
   validateEmailAndPassword = values => {
@@ -109,4 +111,4 @@ class LoginForm extends React.Component {
   }
 }
 
-export default LoginForm;
+export default connect(null, { signIn })(LoginForm);
