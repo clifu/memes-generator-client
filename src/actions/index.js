@@ -1,6 +1,6 @@
 import { SIGN_IN_SUCCESS, SIGN_OUT, REGISTER_USER_SUCESS } from "./types";
 import login from "../apis/login";
-import { getUserProfileData } from "../apis/gets";
+import { getUserProfileData, getFakeData } from "../apis/gets";
 import register from "../apis/register";
 import history from "../history";
 
@@ -62,4 +62,12 @@ export const registerUser = ({
     .catch(error => console.log(error));
 
   return {};
+};
+
+export const fetchFakeData = () => async dispatch => {
+  const response = await getFakeData();
+  dispatch({
+    type: "FETCH_DATA",
+    payload: response.data
+  });
 };

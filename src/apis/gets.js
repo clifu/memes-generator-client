@@ -10,3 +10,7 @@ export const getUserProfileData = id => {
 
   return axios.get(`/User/${id}`, dt);
 };
+
+export const getFakeData = () => {
+  return axios.get("/posts");
+};

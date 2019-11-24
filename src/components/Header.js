@@ -10,8 +10,8 @@ const navItems = [
     path: "/"
   },
   {
-    itemName: "A",
-    path: "/login"
+    itemName: "List",
+    path: "/list"
   }
 ];
 class Header extends React.Component {
@@ -70,9 +70,12 @@ class Header extends React.Component {
     if (path === "/") {
       history.push("/");
       this.setState({ activeIndex: 0 });
-    } else if (path === "/login") {
-      history.push("/login");
+    } else if (path === "/list") {
+      history.push("/list");
       this.setState({ activeIndex: 1 });
+    } else {
+      history.push("/");
+      this.setState({ activeIndex: 0 });
     }
   };
 

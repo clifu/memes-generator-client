@@ -1,9 +1,10 @@
 import React from "react";
 import { Router, Route, Switch } from "react-router-dom";
 import history from "../history";
-import LoginForm from "./LoginForm.js";
-import RegisterForm from "./RegisterForm.js";
-import Header from "./Header.js";
+import LoginForm from "./LoginForm";
+import RegisterForm from "./RegisterForm";
+import Header from "./Header";
+import ObjectsList from "./ObjectsList";
 import _ from "lodash";
 
 class App extends React.Component {
@@ -19,6 +20,7 @@ class App extends React.Component {
           <Switch>
             <Route path="/login" exact component={LoginForm} />
             <Route path="/register" exact component={RegisterForm} />
+            <Route path="/list" exact component={ObjectsList} />
           </Switch>
         </Router>
       </div>
