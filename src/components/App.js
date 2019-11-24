@@ -3,6 +3,7 @@ import { Router, Route, Switch } from "react-router-dom";
 import history from "../history";
 import LoginForm from "./LoginForm.js";
 import RegisterForm from "./RegisterForm.js";
+import Header from "./Header.js";
 import _ from "lodash";
 
 class App extends React.Component {
@@ -14,6 +15,7 @@ class App extends React.Component {
     return (
       <div>
         <Router history={history}>
+          <Header />
           <Switch>
             <Route path="/login" exact component={LoginForm} />
             <Route path="/register" exact component={RegisterForm} />

@@ -162,6 +162,7 @@ class RegisterForm extends React.Component {
       errors.password = "Password must contain at least 1 uppercase character";
     else if (!/(?=.*[0-9])/i.test(values.password))
       errors.password = "Password must contain at least 1 numeric character";
+    // eslint-disable-next-line
     else if (!/(?=.*[!@#\$%\^&\*])/i.test(values.password))
       errors.password = "Password must contain at least 1 special character";
 
