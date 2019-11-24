@@ -4,6 +4,16 @@ import history from "../history";
 import { connect } from "react-redux";
 import { signIn, signOut } from "../actions";
 
+const navItems = [
+  {
+    itemName: "Home",
+    path: "/"
+  },
+  {
+    itemName: "A",
+    path: "/login"
+  }
+];
 class Header extends React.Component {
   shouldComponentUpdate(nextProps, nextState) {
     return !_.isEqual(this.props, nextProps) || this.state !== nextState;
@@ -55,18 +65,25 @@ class Header extends React.Component {
     this.props.signOut();
   };
 
-  activateItemOnClick = element => {};
+  activateItemOnClick = path => {
+    //place to add paths for clicking next header buttons
+    if (path === "/") {
+      history.push("/");
+      this.setState({ activeIndex: 0 });
+    } else if (path === "/login") {
+      history.push("/login");
+      this.setState({ activeIndex: 1 });
+    }
+  };
 
   generateNavItems() {
-    const navItems = ["Home"];
-
     return navItems.map((item, idx) => (
       <a
         className={`item${idx === this.state.activeIndex ? " active" : ""}`}
-        onClick={this.activateItemOnClick}
+        onClick={() => this.activateItemOnClick(item.path)}
         key={idx}
       >
-        {item}
+        {item.itemName}
       </a>
     ));
   }
