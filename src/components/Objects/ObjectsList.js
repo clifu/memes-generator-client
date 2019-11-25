@@ -4,10 +4,14 @@ import { connect } from "react-redux";
 import { fetchFakeData } from "../../actions";
 import { Link } from "react-router-dom";
 import Objectt from "./Objectt";
+import _ from "lodash";
 
 class ObjectsList extends React.Component {
   componentDidMount() {
     this.props.fetchFakeData();
+  }
+  shouldComponentUpdate(nextProps, nextState) {
+    return !_.isEqual(this.props, nextProps) || this.state !== nextState;
   }
 
   renderCreateButton() {

@@ -3,11 +3,16 @@ import Modal from "../Modal";
 import history from "../../history";
 import { deleteObject, fetchObject } from "../../actions";
 import { connect } from "react-redux";
+import _ from "lodash";
 import { Link } from "react-router-dom";
 
 class ObjectDelete extends React.Component {
   componentDidMount() {
     this.props.fetchObject(this.props.match.params.id);
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return !_.isEqual(this.props, nextProps) || this.state !== nextState;
   }
 
   onDeleteButtonClick = () => {

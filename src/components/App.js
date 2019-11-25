@@ -8,6 +8,7 @@ import ObjectsList from "./Objects/ObjectsList";
 import ObjectCreate from "./Objects/ObjectCreate";
 import _ from "lodash";
 import ObjectDelete from "./Objects/ObjectDelete";
+import ObjectEdit from "./Objects/ObjectEdit";
 
 class App extends React.Component {
   shouldComponentUpdate(nextProps, nextState) {
@@ -24,6 +25,7 @@ class App extends React.Component {
             <Route path="/register" exact component={RegisterForm} />
             <Route path="/list" exact component={ObjectsList} />
             <Route path="/objects/delete/:id" exact component={ObjectDelete} />
+            <Route path="/objects/edit/:id" exact component={ObjectEdit} />
             <Route path="/objectCreate" exact component={ObjectCreate} />
           </Switch>
         </Router>

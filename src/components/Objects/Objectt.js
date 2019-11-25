@@ -25,4 +25,4 @@ const Objectt = props => {
   );
 };
 
-export default Objectt;
+export default React.memo(Objectt);
