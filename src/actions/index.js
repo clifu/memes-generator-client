@@ -2,13 +2,17 @@ import {
   SIGN_IN_SUCCESS,
   SIGN_OUT,
   REGISTER_USER_SUCESS,
-  CREATE_OBJECT
+  CREATE_OBJECT,
+  EDIT_OBJECT,
+  DELETE_OBJECT,
+  FETCH_OBJECT
 } from "./types";
 import login from "../apis/login";
 import { getUserProfileData, getFakeData } from "../apis/gets";
 import { postFakeData } from "../apis/posts";
 import register from "../apis/register";
 import history from "../history";
+import axios from "../apis/axios";
 
 //AUTH SECTION
 //region
@@ -86,4 +90,21 @@ export const createObject = data => async dispatch => {
     type: CREATE_OBJECT,
     payload: response.data
   });
+};
+
+export const editObject = (objectId, formValues) => async dispatch => {
+  const response = await axios.patch(`/obejcts/${objectId}`, formValues);
+  dispatch({ type: EDIT_OBJECT, payload: response.data });
+  history.push("/");
+};
+
+export const deleteObject = objectId => async dispatch => {
+  await axios.delete(`/obejcts/${objectId}`);
+  dispatch({ type: DELETE_OBJECT, payload: objectId });
+  history.push("/");
+};
+
+export const fetchObject = objectId => async dispatch => {
+  const response = await axios.get(`/objects/${objectId}`);
+  dispatch({ type: FETCH_OBJECT, payload: response.data });
 };
