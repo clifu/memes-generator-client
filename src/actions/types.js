@@ -1,3 +1,4 @@
 export const SIGN_IN_SUCCESS = "SIGN_IN_SUCCESS";
 export const SIGN_OUT = "SIGN_OUT";
 export const REGISTER_USER_SUCESS = "REGISTER_USER_SUCESS";
+export const CREATE_OBJECT = "CREATE_OBJECT";

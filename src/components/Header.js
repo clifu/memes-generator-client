@@ -12,7 +12,8 @@ const navItems = [
   {
     itemName: "List",
     path: "/list"
-  }
+  },
+  { itemName: "CreateObject", path: "/objectCreate" }
 ];
 class Header extends React.Component {
   shouldComponentUpdate(nextProps, nextState) {
@@ -73,6 +74,9 @@ class Header extends React.Component {
     } else if (path === "/list") {
       history.push("/list");
       this.setState({ activeIndex: 1 });
+    } else if (path === "/objectCreate") {
+      history.push("/objectCreate");
+      this.setState({ activeIndex: 2 });
     } else {
       history.push("/");
       this.setState({ activeIndex: 0 });

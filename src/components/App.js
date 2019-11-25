@@ -4,7 +4,8 @@ import history from "../history";
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
 import Header from "./Header";
-import ObjectsList from "./ObjectsList";
+import ObjectsList from "./Objects/ObjectsList";
+import ObjectCreate from "./Objects/ObjectCreate";
 import _ from "lodash";
 
 class App extends React.Component {
@@ -21,6 +22,7 @@ class App extends React.Component {
             <Route path="/login" exact component={LoginForm} />
             <Route path="/register" exact component={RegisterForm} />
             <Route path="/list" exact component={ObjectsList} />
+            <Route path="/objectCreate" exact component={ObjectCreate} />
           </Switch>
         </Router>
       </div>
