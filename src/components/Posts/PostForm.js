@@ -1,7 +1,6 @@
 import React from "react";
 import _ from "lodash";
 import { Formik, ErrorMessage } from "formik";
-import { Link } from "react-router-dom";
 import PostDTO from "../../DTO/PostDTO";
 
 class PostForm extends React.Component {
@@ -12,6 +11,10 @@ class PostForm extends React.Component {
   onSaveButtonClick = formikValues => {
     this.props.onSubmit(formikValues);
   };
+
+  onCancelButtonClick = () => {
+    this.props.onCancelButtonClick();
+  }
 
   validateTitleAndDescription = values => {
     let errors = {};
@@ -97,9 +100,13 @@ class PostForm extends React.Component {
         >
           Save
         </button>
-        <Link to="/" className="ui button">
+        <button
+          className="ui button negative"
+          onClick={this.onCancelButtonClick}
+          type="submit"
+        >
           Cancel
-        </Link>
+        </button>
       </React.Fragment>
     );
   }

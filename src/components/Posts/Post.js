@@ -1,22 +1,26 @@
 //temporary to display post
 import React from "react";
 import { Link } from "react-router-dom";
+import PostDTO from "../../DTO/PostDTO";
 
 const Postt = props => {
+  //Way of assigning data to postDTO class
+  var post = new PostDTO(props.data.id, props.data.title, props.data.description);
   return (
     <div className="item">
-      <div className="content">{props.data.id}</div>
-      <div className="description">{props.data.title}</div>
+      <div className="content">ID: {post.id}</div>
+      <div className="description">Title: {post.title}</div>      
+      <div className="description">Description: {post.description}</div>
       <div className="right floated content">
         <Link
-          to={`/posts/edit/${props.data.id}`}
+          to={`/posts/edit/${post.id}`}
           className="ui button primary"
         >
           Edit
         </Link>
         <Link
           className="ui button negative"
-          to={`/posts/delete/${props.data.id}`}
+          to={`/posts/delete/${post.id}`}
         >
           Delete
         </Link>

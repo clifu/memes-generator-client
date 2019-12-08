@@ -4,11 +4,14 @@ import history from "../../history";
 import { deletePost, fetchPost } from "../../actions";
 import { connect } from "react-redux";
 import _ from "lodash";
-import { Link } from "react-router-dom";
 
 class PostDelete extends React.Component {
   componentDidMount() {
     this.props.fetchPost(this.props.match.params.id);
+  }
+
+  onCancel = () => {
+    history.push("/list");
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -36,9 +39,12 @@ class PostDelete extends React.Component {
         >
           Delete
         </button>
-        <Link to="/" className="ui button">
+        <button
+          className="ui button positive"
+          onClick={this.onCancel}
+        >
           Cancel
-        </Link>
+        </button>
       </React.Fragment>
     );
   }

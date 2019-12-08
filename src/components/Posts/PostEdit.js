@@ -3,10 +3,15 @@ import React from "react";
 import { connect } from "react-redux";
 import { fetchPost, editPost } from "../../actions";
 import PostForm from "./PostForm";
+import history from '../../history'
 
 class PostEdit extends React.Component {
   componentDidMount() {
     this.props.fetchPost(this.props.match.params.id);
+  }
+
+  onCancel = () => {
+    history.push("/list");
   }
 
   onSubmit = formValues => {
@@ -23,6 +28,7 @@ class PostEdit extends React.Component {
         <PostForm
           onSubmit={this.onSubmit}
           initialValues={_.pick(this.props.post, "title", "description")}
+          onCancelButtonClick={this.onCancel}
         />
       </div>
     );

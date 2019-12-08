@@ -97,7 +97,7 @@ export const editPost = (postId, formValues) => async dispatch => {
   var post = new PostDTO(postId, formValues.title, formValues.description);
   const response = await axios.put(`/post/`, post);
   dispatch({ type: EDIT_OBJECT, payload: response.data });
-  history.push("/");
+  history.push("/list");
 };
 
 export const deletePost = postId => async dispatch => {
