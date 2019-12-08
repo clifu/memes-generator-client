@@ -3,10 +3,10 @@ import React from "react";
 import { connect } from "react-redux";
 import { fetchFakeData } from "../../actions";
 import { Link } from "react-router-dom";
-import Objectt from "./Objectt";
+import Post from "./Post";
 import _ from "lodash";
 
-class ObjectsList extends React.Component {
+class PostsList extends React.Component {
   componentDidMount() {
     this.props.fetchFakeData();
   }
@@ -17,16 +17,16 @@ class ObjectsList extends React.Component {
   renderCreateButton() {
     return (
       <div style={{ textAlign: "right" }}>
-        <Link to="/objectCreate" className="ui button primary">
-          Create object
+        <Link to="/postCreate" className="ui button primary">
+          Create post
         </Link>
       </div>
     );
   }
 
   renderList() {
-    return this.props.objects.map((object, idx) => {
-      return <Objectt data={object} key={idx} />;
+    return this.props.posts.map((post, idx) => {
+      return <Post data={post} key={idx} />;
     });
   }
 
@@ -41,7 +41,7 @@ class ObjectsList extends React.Component {
 }
 
 const mapStateToProps = state => {
-  return { objects: Object.values(state.fakeData) };
+  return { posts: Object.values(state.fakeData) };
 };
 
-export default connect(mapStateToProps, { fetchFakeData })(ObjectsList);
+export default connect(mapStateToProps, { fetchFakeData })(PostsList);

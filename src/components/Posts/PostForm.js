@@ -2,8 +2,9 @@ import React from "react";
 import _ from "lodash";
 import { Formik, ErrorMessage } from "formik";
 import { Link } from "react-router-dom";
+import PostDTO from "../../DTO/PostDTO";
 
-class ObjectForm extends React.Component {
+class PostForm extends React.Component {
   shouldComponentUpdate(nextProps, nextState) {
     return !_.isEqual(this.props, nextProps) || this.state !== nextState;
   }
@@ -12,19 +13,27 @@ class ObjectForm extends React.Component {
     this.props.onSubmit(formikValues);
   };
 
-  validateTitle = values => {
+  validateTitleAndDescription = values => {
     let errors = {};
     if (!values.title) {
       errors.title = "Title is required";
+    }
+
+    if (!values.description) {
+      errors.description = "Description is required";
     }
     return errors;
   };
 
   renderContent() {
+    var post;
+    if(this.props.initialValues) {
+      post = new PostDTO(null, this.props.initialValues.title, this.props.initialValues.description)
+    }
     return (
       <Formik
-        initialValues={{ title: "" }}
-        validate={this.validateTitle}
+        initialValues={{ title: post ? post.title : "" , description: post ? post.description : ""}}
+        validate={this.validateTitleAndDescription}
         onSubmit={values => this.onSaveButtonClick(values)}
       >
         {({ values, handleChange, handleBlur, handleSubmit }) => (
@@ -41,6 +50,23 @@ class ObjectForm extends React.Component {
               />
               <ErrorMessage
                 name="title"
+                render={msg => (
+                  <div className="ui pointing red basic label">{msg}</div>
+                )}
+              />
+            </div>
+            <label>Description</label>
+            <div className="field">
+              <input
+                type="text"
+                name="description"
+                placeholder="Description"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.description}
+              />
+              <ErrorMessage
+                name="description"
                 render={msg => (
                   <div className="ui pointing red basic label">{msg}</div>
                 )}
@@ -83,4 +109,4 @@ class ObjectForm extends React.Component {
   }
 }
 
-export default ObjectForm;
+export default PostForm;

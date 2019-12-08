@@ -1,12 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
-import { createObject } from "../../actions";
-import ObjectForm from "./ObjectForm";
+import { createPost } from "../../actions";
+import PostForm from "./PostForm";
 import _ from "lodash";
 
-class ObjectCreate extends React.Component {
+class PostCreate extends React.Component {
   onSubmit = formikValues => {
-    this.props.createObject(formikValues);
+    this.props.createPost(formikValues);
   };
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -16,10 +16,10 @@ class ObjectCreate extends React.Component {
   render() {
     return (
       <div>
-        <ObjectForm onSubmit={this.onSubmit} />
+        <PostForm onSubmit={this.onSubmit} />
       </div>
     );
   }
 }
 
-export default connect(null, { createObject })(ObjectCreate);
+export default connect(null, { createPost })(PostCreate);

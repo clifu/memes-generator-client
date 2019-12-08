@@ -13,6 +13,7 @@ import { postFakeData } from "../apis/posts";
 import register from "../apis/register";
 import history from "../history";
 import axios from "../apis/axios";
+import PostDTO from "../DTO/PostDTO"
 
 //AUTH SECTION
 //region
@@ -82,29 +83,30 @@ export const fetchFakeData = () => async dispatch => {
   });
 };
 
-export const createObject = data => async dispatch => {
+export const createPost = data => async dispatch => {
+ 
   const response = await postFakeData(data);
-
-  debugger;
   dispatch({
     type: CREATE_OBJECT,
     payload: response.data
   });
+  history.push("/list");
 };
 
-export const editObject = (objectId, formValues) => async dispatch => {
-  const response = await axios.patch(`/obejcts/${objectId}`, formValues);
+export const editPost = (postId, formValues) => async dispatch => {
+  var post = new PostDTO(postId, formValues.title, formValues.description);
+  const response = await axios.put(`/post/`, post);
   dispatch({ type: EDIT_OBJECT, payload: response.data });
   history.push("/");
 };
 
-export const deleteObject = objectId => async dispatch => {
-  await axios.delete(`/obejcts/${objectId}`);
-  dispatch({ type: DELETE_OBJECT, payload: objectId });
-  history.push("/");
+export const deletePost = postId => async dispatch => {
+  await axios.delete(`/post/${postId}`);
+  dispatch({ type: DELETE_OBJECT, payload: postId });
+  history.push("/list");
 };
 
-export const fetchObject = objectId => async dispatch => {
-  const response = await axios.get(`/objects/${objectId}`);
+export const fetchPost = postId => async dispatch => {
+  const response = await axios.get(`/post/${postId}`);
   dispatch({ type: FETCH_OBJECT, payload: response.data });
 };

@@ -1,14 +1,14 @@
 import React from "react";
 import Modal from "../Modal";
 import history from "../../history";
-import { deleteObject, fetchObject } from "../../actions";
+import { deletePost, fetchPost } from "../../actions";
 import { connect } from "react-redux";
 import _ from "lodash";
 import { Link } from "react-router-dom";
 
-class ObjectDelete extends React.Component {
+class PostDelete extends React.Component {
   componentDidMount() {
-    this.props.fetchObject(this.props.match.params.id);
+    this.props.fetchPost(this.props.match.params.id);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -16,15 +16,15 @@ class ObjectDelete extends React.Component {
   }
 
   onDeleteButtonClick = () => {
-    this.props.deleteObject(this.props.match.params.id);
+    this.props.deletePost(this.props.match.params.id);
   };
 
   renderContent() {
-    if (!this.props.object) {
+    if (!this.props.post) {
       return "Are you sure?";
     }
 
-    return `Are you sure you want to delete ${this.props.object.title}`;
+    return `Are you sure you want to delete ${this.props.post.title}`;
   }
 
   renderActions() {
@@ -46,7 +46,7 @@ class ObjectDelete extends React.Component {
   render() {
     return (
       <Modal
-        title="Delete object"
+        title="Delete post"
         content={this.renderContent()}
         actions={this.renderActions()}
         onDismiss={() => history.push("/")}
@@ -56,9 +56,9 @@ class ObjectDelete extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  return { object: state.fakeData[ownProps.match.params.id] };
+  return { post: state.fakeData[ownProps.match.params.id] };
 };
 
-export default connect(mapStateToProps, { fetchObject, deleteObject })(
-  ObjectDelete
+export default connect(mapStateToProps, { fetchPost, deletePost })(
+  PostDelete
 );

@@ -4,11 +4,11 @@ import history from "../history";
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
 import Header from "./Header";
-import ObjectsList from "./Objects/ObjectsList";
-import ObjectCreate from "./Objects/ObjectCreate";
+import PostsList from "./Posts/PostsList";
+import PostCreate from "./Posts/PostCreate";
 import _ from "lodash";
-import ObjectDelete from "./Objects/ObjectDelete";
-import ObjectEdit from "./Objects/ObjectEdit";
+import PostDelete from "./Posts/PostDelete";
+import PostEdit from "./Posts/PostEdit";
 
 class App extends React.Component {
   shouldComponentUpdate(nextProps, nextState) {
@@ -23,10 +23,10 @@ class App extends React.Component {
           <Switch>
             <Route path="/login" exact component={LoginForm} />
             <Route path="/register" exact component={RegisterForm} />
-            <Route path="/list" exact component={ObjectsList} />
-            <Route path="/objects/delete/:id" exact component={ObjectDelete} />
-            <Route path="/objects/edit/:id" exact component={ObjectEdit} />
-            <Route path="/objectCreate" exact component={ObjectCreate} />
+            <Route path="/list" exact component={PostsList} />
+            <Route path="/posts/delete/:id" exact component={PostDelete} />
+            <Route path="/posts/edit/:id" exact component={PostEdit} />
+            <Route path="/postCreate" exact component={PostCreate} />
           </Switch>
         </Router>
       </div>
