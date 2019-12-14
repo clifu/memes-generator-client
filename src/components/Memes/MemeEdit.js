@@ -2,10 +2,10 @@ import _ from "lodash";
 import React from "react";
 import { connect } from "react-redux";
 import { fetchPost, editPost } from "../../actions";
-import PostForm from "./PostForm";
+import MemeForm from "./MemeForm";
 import history from '../../history'
 
-class PostEdit extends React.Component {
+class MemeEdit extends React.Component {
   componentDidMount() {
     this.props.fetchPost(this.props.match.params.id);
   }
@@ -25,7 +25,7 @@ class PostEdit extends React.Component {
     return (
       <div>
         <h3>Edit post</h3>
-        <PostForm
+        <MemeForm
           onSubmit={this.onSubmit}
           initialValues={_.pick(this.props.post, "title", "description")}
           onCancelButtonClick={this.onCancel}
@@ -40,5 +40,5 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 export default connect(mapStateToProps, { fetchPost, editPost })(
-  PostEdit
+  MemeEdit
 );

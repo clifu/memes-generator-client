@@ -1,9 +1,9 @@
 import axios from "./axios";
-import PostDTO from "../DTO/PostDTO";
+import MemeDTO from "../DTO/MemeDTO";
 
 export const postFakeData = data => {
 
-  var post = new PostDTO(null, data.title, data.description);
+  var post = new MemeDTO(null, data.title, data.description);
 
   return axios.post('/Posts', post);
 };

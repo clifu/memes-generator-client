@@ -5,7 +5,7 @@ import { deletePost, fetchPost } from "../../actions";
 import { connect } from "react-redux";
 import _ from "lodash";
 
-class PostDelete extends React.Component {
+class MemeDelete extends React.Component {
   componentDidMount() {
     this.props.fetchPost(this.props.match.params.id);
   }
@@ -66,5 +66,5 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 export default connect(mapStateToProps, { fetchPost, deletePost })(
-  PostDelete
+  MemeDelete
 );

@@ -1,9 +1,9 @@
 import React from "react";
 import _ from "lodash";
 import { Formik, ErrorMessage } from "formik";
-import PostDTO from "../../DTO/PostDTO";
+import MemeDTO from "../../DTO/MemeDTO";
 
-class PostForm extends React.Component {
+class MemeForm extends React.Component {
   shouldComponentUpdate(nextProps, nextState) {
     return !_.isEqual(this.props, nextProps) || this.state !== nextState;
   }
@@ -31,7 +31,7 @@ class PostForm extends React.Component {
   renderContent() {
     var post;
     if(this.props.initialValues) {
-      post = new PostDTO(null, this.props.initialValues.title, this.props.initialValues.description)
+      post = new MemeDTO(null, this.props.initialValues.title, this.props.initialValues.description)
     }
     return (
       <Formik
@@ -116,4 +116,4 @@ class PostForm extends React.Component {
   }
 }
 
-export default PostForm;
+export default MemeForm;

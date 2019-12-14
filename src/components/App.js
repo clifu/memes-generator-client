@@ -6,11 +6,11 @@ import history from "../history";
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
 import Header from "./Header";
-import PostsList from "./Posts/PostsList";
-import PostCreate from "./Posts/PostCreate";
+import PostsList from "./Memes/MemeList";
+import PostCreate from "./Memes/MemeCreate";
 import _ from "lodash";
-import PostDelete from "./Posts/PostDelete";
-import PostEdit from "./Posts/PostEdit";
+import PostDelete from "./Memes/MemeDelete";
+import PostEdit from "./Memes/MemeEdit";
 import FloatingMessage from "./AdditionalComponents/FloatingMessage";
 import Cookies from "js-cookie";
 

@@ -15,7 +15,7 @@ import { postFakeData } from "../apis/posts";
 import register from "../apis/register";
 import history from "../history";
 import axios from "../apis/axios";
-import PostDTO from "../DTO/PostDTO"
+import MemeDTO from "../DTO/MemeDTO";
 import Cookies from "js-cookie";
 
 //AUTH SECTION
@@ -129,7 +129,7 @@ export const createPost = data => async dispatch => {
 };
 
 export const editPost = (postId, formValues) => async dispatch => {
-  var post = new PostDTO(postId, formValues.title, formValues.description);
+  var post = new MemeDTO(postId, formValues.title, formValues.description);
   const response = await axios.put(`/posts/${post.id}`, post);
   dispatch({ type: EDIT_OBJECT, payload: post});
   history.push("/list");
