@@ -8,20 +8,21 @@ import initialState from "./initialState";
 export default (state = initialState.auth, action) => {
   switch (action.type) {
     case SIGN_IN_SUCCESS:
+      debugger;
       return {
         ...state,
         isSignedIn: true,
-        userId: action.payload.userId,
-        userToken: action.payload.userToken,
-        userTokenExpirationTime: action.payload.userTokenExpirationTime
+        userId: action.payload.id,
+        userToken: action.payload.token,
+        userTokenExpirationTime: action.payload.tokenExpirationTime
       };
     case REGISTER_USER_SUCESS:
       return {
         ...state,
         isSignedIn: true,
-        userId: action.payload.userId,
-        userToken: action.payload.userToken,
-        userTokenExpirationTime: action.payload.userTokenExpirationTime
+        userId: action.payload.id,
+        userToken: action.payload.token,
+        userTokenExpirationTime: action.payload.tokenExpirationTime
       };
     case SIGN_OUT:
       return {
