@@ -95,18 +95,18 @@ export const createPost = data => async dispatch => {
 
 export const editPost = (postId, formValues) => async dispatch => {
   var post = new PostDTO(postId, formValues.title, formValues.description);
-  const response = await axios.put(`/post/`, post);
-  dispatch({ type: EDIT_OBJECT, payload: response.data });
+  const response = await axios.put(`/posts/${post.id}`, post);
+  dispatch({ type: EDIT_OBJECT, payload: post});
   history.push("/list");
 };
 
 export const deletePost = postId => async dispatch => {
-  await axios.delete(`/post/${postId}`);
+  await axios.delete(`/posts/${postId}`);
   dispatch({ type: DELETE_OBJECT, payload: postId });
   history.push("/list");
 };
 
 export const fetchPost = postId => async dispatch => {
-  const response = await axios.get(`/post/${postId}`);
+  const response = await axios.get(`/posts/${postId}`);
   dispatch({ type: FETCH_OBJECT, payload: response.data });
 };
