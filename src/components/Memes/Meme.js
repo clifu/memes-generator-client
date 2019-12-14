@@ -31,26 +31,21 @@ const Meme = props => {
                 <img className="ui avatar image" src={post.imageUrl} alt="image"/> loginUzytkownika
             </div>
             <div className="content">
-                {/*<div className="ui header">{post.title}</div>*/}
                 <div className="ui description">
-                    {post.description.length > 150 ? post.description.substring(0, 150) + " ..." : post.description}</div>
-
+                    {post.description.length > 150 ? post.description.substring(0, 150) + " ..." : post.description}
+                </div>
             </div>
 
-            <div className="extra content">
-                    <div className="ui labeled button">
-                        <div className="ui green button">
-                            <i className="thumbs up icon"/>
-                        </div>
-                        <a className="ui basic green left pointing label">17</a>
-                    </div>
-                    <div className="ui labeled button">
-                        <div className="ui red button">
-                            <i className="thumbs down icon"/>
-                        </div>
-                        <a className="ui basic red left pointing label">2</a>
-                    </div>
+            <div className="ui two bottom attached buttons">
+                <div className="ui labeled green icon button">
 
+                    <i className="thumbs up icon"/> 17
+                </div>
+                <div className="ui right labeled red icon button">
+
+                    <i className="thumbs down icon"/>
+                    2
+                </div>
             </div>
         </div>
     );

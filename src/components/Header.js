@@ -16,9 +16,9 @@ const navItems = [
 ];
 
 class Header extends React.Component {
-  shouldComponentUpdate(nextProps, nextState) {
-    return !_.isEqual(this.props, nextProps) || this.state !== nextState;
-  }
+    shouldComponentUpdate(nextProps, nextState) {
+        return !_.isEqual(this.props, nextProps) || this.state !== nextState;
+    }
 
     state = {
         activeIndex: 0
@@ -35,7 +35,9 @@ class Header extends React.Component {
                         marginRight: "3px",
                         marginLeft: "3px",
                         marginBottom: "3px"
-                    }}> Zaloguj </button>
+                    }}><i className="icon user"/> Zaloguj </button>
+
+
             );
         else if (this.props.isSignedIn)
             return (
@@ -81,7 +83,7 @@ class Header extends React.Component {
 
     render() {
         return (
-            <div className="ui secondary pointing menu">
+            <div className="ui fixed inverted menu">
                 <div className="ui container">
                     {this.generateNavItems()}
                     <div className="right menu"> {this.renderAuthButton()} </div>
