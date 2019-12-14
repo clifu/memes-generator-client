@@ -45,8 +45,11 @@ class MemeList extends React.Component {
     render() {
         return (
             <div className="ui container">
-                <div className="ui cards">{this.renderList()}</div>
-                {this.renderCreateButton()}
+                <div className="ui three column grid">
+
+                    <div className="ui cards">{this.renderList()}</div>
+                    {this.renderCreateButton()}
+                </div>
             </div>
         );
     }
