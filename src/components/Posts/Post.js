@@ -3,7 +3,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import PostDTO from "../../DTO/PostDTO";
 
-const Postt = props => {
+const Post = props => {
   //Way of assigning data to postDTO class
   var post = new PostDTO(props.data.id, props.data.title, props.data.description);
   return (
@@ -29,4 +29,4 @@ const Postt = props => {
   );
 };
 
-export default React.memo(Postt);
+export default React.memo(Post);

@@ -5,5 +5,5 @@ export const postFakeData = data => {
 
   var post = new PostDTO(null, data.title, data.description);
 
-  return axios.put("/post/", post);
+  return axios.put(`/Posts/${post.id}`, post);
 };
