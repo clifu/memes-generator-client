@@ -49,8 +49,7 @@ class Header extends React.Component {
             marginTop: "3px",
             marginRight: "3px",
             marginLeft: "3px",
-            marginBottom: "3px",
-            color: "red"
+            marginBottom: "3px"
           }}
         >
           Sign out

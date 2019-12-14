@@ -1,5 +1,7 @@
 import React from "react";
 import { Router, Route, Switch } from "react-router-dom";
+import { loginFromCache } from "../actions";
+import { connect } from "react-redux";
 import history from "../history";
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
@@ -9,8 +11,21 @@ import PostCreate from "./Posts/PostCreate";
 import _ from "lodash";
 import PostDelete from "./Posts/PostDelete";
 import PostEdit from "./Posts/PostEdit";
+import FloatingMessage from "./AdditionalComponents/FloatingMessage";
+import Cookies from "js-cookie";
 
 class App extends React.Component {
+
+  componentDidMount() {
+    var id = Cookies.get("userId");
+    var token = Cookies.get("userToken");
+    var expirationTime = Cookies.get("userTokenExpirationTime");
+
+    if (id && token && expirationTime) {
+      this.props.loginFromCache({ id, token, expirationTime });
+    }
+  }
+
   shouldComponentUpdate(nextProps, nextState) {
     return !_.isEqual(this.props, nextProps) || this.state !== nextState;
   }
@@ -20,6 +35,9 @@ class App extends React.Component {
       <div>
         <Router history={history}>
           <Header />
+          {this.props.notifications.map((notification, i) => (
+            <FloatingMessage notification={notification} key={i} id={i} />
+          ))}
           <Switch>
             <Route path="/login" exact component={LoginForm} />
             <Route path="/register" exact component={RegisterForm} />
@@ -34,4 +52,11 @@ class App extends React.Component {
   }
 }
 
-export default App;
+const mapStateToProps = state => {
+  return { notifications: Object.values(state.notifications) };
+};
+
+export default connect(
+  mapStateToProps,
+  { loginFromCache }
+)(App);

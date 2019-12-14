@@ -5,7 +5,9 @@ import {
   CREATE_OBJECT,
   EDIT_OBJECT,
   DELETE_OBJECT,
-  FETCH_OBJECT
+  FETCH_OBJECT,
+  DISMISS_NOTIFICATION,
+  DISPLAY_NOTIFICATION
 } from "./types";
 import login from "../apis/login";
 import { getUserProfileData, getFakeData } from "../apis/gets";
@@ -14,6 +16,7 @@ import register from "../apis/register";
 import history from "../history";
 import axios from "../apis/axios";
 import PostDTO from "../DTO/PostDTO"
+import Cookies from "js-cookie";
 
 //AUTH SECTION
 //region
@@ -23,7 +26,7 @@ export const signIn = (email, password) => async dispatch => {
       dispatch(loginSucess(response.data));
       dispatch(getUserDataAfterLogin(response.data));
     })
-    .catch(error => console.log(error));
+    .catch(error => dispatch(loginError(error)));
 };
 
 export const loginFromCache = data => {
@@ -37,6 +40,10 @@ const getUserDataAfterLogin = data => async dispatch => {
 export const loginSucess = (data, type) => {
   const { id, token, expirationTime } = data;
 
+  Cookies.set("userId", id);
+  Cookies.set("userToken", token);
+  Cookies.set("userTokenExpirationTime", expirationTime);
+
   history.push("/");
   return {
     type: type ? REGISTER_USER_SUCESS : SIGN_IN_SUCCESS,
@@ -45,7 +52,35 @@ export const loginSucess = (data, type) => {
 };
 
 export const signOut = () => {
+  Cookies.remove("userId");
+  Cookies.remove("userToken");
+  Cookies.remove("userTokenExpirationTime");
   return { type: SIGN_OUT };
+};
+
+const loginError = error => {
+  history.push("/login");
+  console.log(error);
+  return {
+    type: DISPLAY_NOTIFICATION,
+    payload: { content: error.response ? error.response.data : error }
+  };
+};
+
+export const dismissNotification = id => {
+  return {
+    type: DISMISS_NOTIFICATION,
+    payload: id
+  };
+};
+
+const registerFailure = error => {
+  history.push("/register");
+  console.log(error);
+  return {
+    type: DISPLAY_NOTIFICATION,
+    payload: { content: error.response ? error.response.data : error }
+  };
 };
 
 export const registerUser = ({
@@ -70,7 +105,7 @@ export const registerUser = ({
     .then(response =>
       dispatch(loginSucess(response.data, REGISTER_USER_SUCESS))
     )
-    .catch(error => console.log(error));
+    .catch(error => dispatch(registerFailure(error)));
 
   return {};
 };
