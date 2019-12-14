@@ -27,15 +27,14 @@ class Header extends React.Component {
     renderAuthButton() {
         if (this.props.isSignedIn === null || !this.props.isSignedIn)
             return (
-                <button
-                    className="ui positive button"
-                    onClick={this.onSignInClick}
-                    style={{
-                        marginTop: "3px",
-                        marginRight: "3px",
-                        marginLeft: "3px",
-                        marginBottom: "3px"
-                    }}><i className="icon user"/> Zaloguj </button>
+                <a className="item"
+                   onClick={this.onSignInClick}
+                   style={{
+                       marginTop: "3px",
+                       marginRight: "3px",
+                       marginLeft: "3px",
+                       marginBottom: "3px"
+                   }}><i className="icon user"/> Zaloguj </a>
 
 
             );
@@ -86,7 +85,7 @@ class Header extends React.Component {
             <div className="ui fixed inverted menu">
                 <div className="ui container">
                     {this.generateNavItems()}
-                    <div className="right menu"> {this.renderAuthButton()} </div>
+                    <div className="right menu"> {this.renderAuthButton()}</div>
                 </div>
             </div>
         );

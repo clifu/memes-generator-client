@@ -36,17 +36,19 @@ class App extends React.Component {
                 <Router history={history}>
                     <Header/>
                     <div className="ui main container">
-                        {this.props.notifications.map((notification, i) => (
-                            <FloatingMessage notification={notification} key={i} id={i}/>
-                        ))}
-                        <Switch>
-                            <Route path="/login" exact component={LoginForm}/>
-                            <Route path="/register" exact component={RegisterForm}/>
-                            <Route path="/list" exact component={PostsList}/>
-                            <Route path="/posts/delete/:id" exact component={PostDelete}/>
-                            <Route path="/posts/edit/:id" exact component={PostEdit}/>
-                            <Route path="/postCreate" exact component={PostCreate}/>
-                        </Switch>
+                        <div className="main container">
+                            {this.props.notifications.map((notification, i) => (
+                                <FloatingMessage notification={notification} key={i} id={i}/>
+                            ))}
+                            <Switch>
+                                <Route path="/login" exact component={LoginForm}/>
+                                <Route path="/register" exact component={RegisterForm}/>
+                                <Route path="/list" exact component={PostsList}/>
+                                <Route path="/posts/delete/:id" exact component={PostDelete}/>
+                                <Route path="/posts/edit/:id" exact component={PostEdit}/>
+                                <Route path="/postCreate" exact component={PostCreate}/>
+                            </Switch>
+                        </div>
                     </div>
                 </Router>
             </div>
