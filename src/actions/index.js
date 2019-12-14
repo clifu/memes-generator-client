@@ -23,18 +23,21 @@ import Cookies from "js-cookie";
 export const signIn = (email, password) => async dispatch => {
   await login(email, password)
     .then(response => {
-      dispatch(loginSucess(response.data));
       dispatch(getUserDataAfterLogin(response.data));
+      dispatch(loginSucess(response.data));
     })
     .catch(error => dispatch(loginError(error)));
 };
 
-export const loginFromCache = data => {
+export const loginFromCache = data => async dispatch =>{
+  
+  dispatch(getUserDataAfterLogin(data));
   return loginSucess(data);
 };
 
 const getUserDataAfterLogin = data => async dispatch => {
-  await getUserProfileData(data.id);
+  var result = await getUserProfileData(data.id);
+  debugger;
 };
 
 export const loginSucess = (data, type) => {

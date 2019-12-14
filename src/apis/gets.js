@@ -8,7 +8,7 @@ export const getUserProfileData = id => {
     }
   };
 
-  return axios.get(`/User/${id}`, dt);
+  return axios.get(`/users/${id}`, dt);
 };
 
 export const getFakeData = () => {

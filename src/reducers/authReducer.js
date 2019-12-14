@@ -8,7 +8,6 @@ import initialState from "./initialState";
 export default (state = initialState.auth, action) => {
   switch (action.type) {
     case SIGN_IN_SUCCESS:
-      debugger;
       return {
         ...state,
         isSignedIn: true,
