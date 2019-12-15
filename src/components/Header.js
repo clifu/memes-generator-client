@@ -24,7 +24,14 @@ class Header extends React.Component {
         activeIndex: 0
     };
 
-    renderAuthButton() {
+    renderWelcome = () => {
+        if (this.props.isSignedIn )
+        {
+            return <div style={{color: 'white', margin: 'auto'}}>{`Witaj, ${this.props.username}`}</div>
+        }
+    };
+
+    renderAuthButton = () => {
         if (this.props.isSignedIn === null || !this.props.isSignedIn)
             return (
                 <a className="item"
@@ -35,8 +42,6 @@ class Header extends React.Component {
                        marginLeft: "3px",
                        marginBottom: "3px"
                    }}><i className="icon user"/> Zaloguj </a>
-
-
             );
         else if (this.props.isSignedIn)
             return (
@@ -85,7 +90,7 @@ class Header extends React.Component {
             <div className="ui fixed inverted menu">
                 <div className="ui container">
                     {this.generateNavItems()}
-                    <div className="right menu"> {this.renderAuthButton()}</div>
+                    <div className="right menu"> {this.renderWelcome()} {this.renderAuthButton()}</div>
                 </div>
             </div>
         );
@@ -93,7 +98,8 @@ class Header extends React.Component {
 }
 
 const mapStateToProps = state => {
-    return {isSignedIn: state.auth.isSignedIn};
+    return {isSignedIn: state.auth.isSignedIn,
+            username: state.auth.username};
 };
 
 export default connect(mapStateToProps, {signIn, signOut})(Header);

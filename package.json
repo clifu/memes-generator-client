@@ -15,7 +15,9 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.2.0",
     "redux": "^4.0.4",
+    "redux-batched-subscribe": "^0.1.6",
     "redux-form": "^8.2.6",
+    "redux-multi": "^0.1.12",
     "redux-thunk": "^2.3.0",
     "semantic-ui-react": "^0.88.2"
   },

@@ -7,10 +7,11 @@ import {
   DELETE_OBJECT,
   FETCH_OBJECT,
   DISMISS_NOTIFICATION,
-  DISPLAY_NOTIFICATION
+  DISPLAY_NOTIFICATION,
+  SAVE_USER_DATA
 } from "./types";
 import login from "../apis/login";
-import { getUserProfileData, getFakeData } from "../apis/gets";
+import { getUserProfileDataByAccountId, getFakeData } from "../apis/gets";
 import { postFakeData } from "../apis/posts";
 import register from "../apis/register";
 import history from "../history";
@@ -19,39 +20,40 @@ import MemeDTO from "../DTO/MemeDTO";
 import Cookies from "js-cookie";
 
 //AUTH SECTION
-//region
+
 export const signIn = (email, password) => async dispatch => {
   await login(email, password)
     .then(response => {
-      dispatch(getUserDataAfterLogin(response.data));
-      dispatch(loginSucess(response.data));
+      dispatch(loginSuccess(response.data));
+      history.push("/list");
     })
     .catch(error => dispatch(loginError(error)));
+
 };
 
-export const loginFromCache = data => async dispatch =>{
-  
-  dispatch(getUserDataAfterLogin(data));
-  return loginSucess(data);
+export const loginFromCache = data => async dispatch => {
+  dispatch(loginSuccess(data));
 };
 
-const getUserDataAfterLogin = data => async dispatch => {
-  var result = await getUserProfileData(data.id);
-  debugger;
+const getUserDataAfterLogin = id => async dispatch => {
+  var response = await getUserProfileDataByAccountId(id);
+  dispatch(saveUserData(response.data));
+
 };
 
-export const loginSucess = (data, type) => {
+export const loginSuccess = (data, type) => async dispatch => {
   const { id, token, expirationTime } = data;
+
+  dispatch(getUserDataAfterLogin(id));
 
   Cookies.set("userId", id);
   Cookies.set("userToken", token);
   Cookies.set("userTokenExpirationTime", expirationTime);
 
-  history.push("/");
-  return {
+  dispatch({
     type: type ? REGISTER_USER_SUCESS : SIGN_IN_SUCCESS,
     payload: { id, token, expirationTime }
-  };
+  });
 };
 
 export const signOut = () => {
@@ -106,13 +108,22 @@ export const registerUser = ({
   })
     //on registerSucess just login registrered user
     .then(response =>
-      dispatch(loginSucess(response.data, REGISTER_USER_SUCESS))
+      dispatch(loginSuccess(response.data, REGISTER_USER_SUCESS))
     )
     .catch(error => dispatch(registerFailure(error)));
 
   return {};
 };
 
+const saveUserData = data => {
+
+  return {
+    type: SAVE_USER_DATA,
+    payload: data
+  }
+};
+
+//region
 export const fetchFakeData = () => async dispatch => {
   const response = await getFakeData();
   dispatch({
