@@ -55,7 +55,7 @@ class MemeDelete extends React.Component {
         title="Delete post"
         content={this.renderContent()}
         actions={this.renderActions()}
-        onDismiss={() => history.push("/")}
+        onDismiss={() => history.push("/list")}
       />
     );
   }

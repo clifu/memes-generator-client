@@ -11,7 +11,7 @@ class MemeCreate extends React.Component {
     };
 
     onCancel = () => {
-        history.push("/");
+        history.push("/list");
     };
 
     shouldComponentUpdate(nextProps, nextState) {

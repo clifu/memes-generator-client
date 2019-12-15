@@ -2,7 +2,7 @@ import React from "react";
 import _ from "lodash";
 import history from "../history";
 import {connect} from "react-redux";
-import {signIn, signOut} from "../actions";
+import {signIn, signOut, setActiveBookmarkIndex,} from "../actions";
 
 const navItems = [
     {
@@ -16,20 +16,31 @@ const navItems = [
 ];
 
 class Header extends React.Component {
-    shouldComponentUpdate(nextProps, nextState) {
-        return !_.isEqual(this.props, nextProps) || this.state !== nextState;
-    }
-
-    state = {
-        activeIndex: 0
-    };
 
     renderWelcome = () => {
-        if (this.props.isSignedIn )
+        if (this.props.isSignedIn)
         {
-            return <div style={{color: 'white', margin: 'auto'}}>{`Witaj, ${this.props.username}`}</div>
+            return  <div style={{marginRight: '25px', display: 'inline-block'}}>
+                <div style={{color: 'white', margin: 'auto'}}>
+                    {`Witaj, ${this.props.username}`}
+                </div>
+                <div className="ui avatar image">
+                    <img src={this.props.thumbnailImageUrl} alt="image"/>
+              </div>
+                </div>
         }
     };
+
+    componentWillUpdate(nextProps, nextState, nextContext) {
+
+        if (window.location.pathname === "/postCreate") {
+            history.push("/postCreate");
+            this.props.setActiveBookmarkIndex(1);
+        } else {
+            history.push("/list");
+            this.props.setActiveBookmarkIndex(0);
+        }
+    }
 
     renderAuthButton = () => {
         if (this.props.isSignedIn === null || !this.props.isSignedIn)
@@ -69,16 +80,16 @@ class Header extends React.Component {
         //place to add paths for clicking next header buttons
         if (path === "/postCreate") {
             history.push("/postCreate");
-            this.setState({activeIndex: 1});
+            this.props.setActiveBookmarkIndex(1)
         } else {
             history.push("/list");
-            this.setState({activeIndex: 0});
+            this.props.setActiveBookmarkIndex(0)
         }
     };
 
     generateNavItems() {
         return navItems.map((item, idx) => (
-            <a className={`item${idx === this.state.activeIndex ? " active" : ""}`}
+            <a className={`item${idx === this.props.activeBookmarkIndex ? " active" : ""}`}
                onClick={() => this.activateItemOnClick(item.path)}
                key={idx}> {item.itemName}
             </a>
@@ -99,7 +110,9 @@ class Header extends React.Component {
 
 const mapStateToProps = state => {
     return {isSignedIn: state.auth.isSignedIn,
-            username: state.auth.username};
+            username: state.auth.username,
+            thumbnailImageUrl: state.auth.thumbnailImageUrl,
+            activeBookmarkIndex: state.navigation.activeBookmarkId};
 };
 
-export default connect(mapStateToProps, {signIn, signOut})(Header);
+export default connect(mapStateToProps, {signIn, signOut, setActiveBookmarkIndex})(Header);

@@ -12,7 +12,11 @@ const initialState = {
     lastName: null,
     profileImageUrl: null,
     thumbnailImageUrl: null
+  },
+  activeBookmarkId: {
+    activeBookmarkId: 0
   }
+
 };
 
 export default initialState;

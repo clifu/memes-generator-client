@@ -8,7 +8,7 @@ import {
   FETCH_OBJECT,
   DISMISS_NOTIFICATION,
   DISPLAY_NOTIFICATION,
-  SAVE_USER_DATA
+  SAVE_USER_DATA, CHANGE_BOOKMARK
 } from "./types";
 import login from "../apis/login";
 import { getUserProfileDataByAccountId, getFakeData } from "../apis/gets";
@@ -23,11 +23,11 @@ import Cookies from "js-cookie";
 
 export const signIn = (email, password) => async dispatch => {
   await login(email, password)
-    .then(response => {
-      dispatch(loginSuccess(response.data));
-      history.push("/list");
-    })
-    .catch(error => dispatch(loginError(error)));
+      .then(response => {
+        dispatch(loginSuccess(response.data));
+        history.push("/list");
+      })
+      .catch(error => dispatch(loginError(error)));
 
 };
 
@@ -37,29 +37,39 @@ export const loginFromCache = data => async dispatch => {
 
 const getUserDataAfterLogin = id => async dispatch => {
   var response = await getUserProfileDataByAccountId(id);
+  Cookies.set("username", response.username);
+  Cookies.set("firstName", response.firstName);
+  Cookies.set("lastName", response.lastName);
+  Cookies.set("profileImageUrl", response.profileImageUrl);
+  Cookies.set("thumbnailImageUrl", response.thumbnailImageUrl);
   dispatch(saveUserData(response.data));
-
 };
 
 export const loginSuccess = (data, type) => async dispatch => {
   const { id, token, expirationTime } = data;
 
-  dispatch(getUserDataAfterLogin(id));
-
   Cookies.set("userId", id);
   Cookies.set("userToken", token);
   Cookies.set("userTokenExpirationTime", expirationTime);
 
-  dispatch({
+  dispatch([getUserDataAfterLogin(id),{
     type: type ? REGISTER_USER_SUCESS : SIGN_IN_SUCCESS,
     payload: { id, token, expirationTime }
-  });
+  }]);
+
+  history.push("/list");
 };
 
 export const signOut = () => {
   Cookies.remove("userId");
   Cookies.remove("userToken");
   Cookies.remove("userTokenExpirationTime");
+  Cookies.remove("username");
+  Cookies.remove("firstName");
+  Cookies.remove("lastName");
+  Cookies.remove("profileImageUrl");
+  Cookies.remove("thumbnailImageUrl");
+
   return { type: SIGN_OUT };
 };
 
@@ -115,7 +125,7 @@ export const registerUser = ({
   return {};
 };
 
-const saveUserData = data => {
+export const saveUserData = data => {
 
   return {
     type: SAVE_USER_DATA,
@@ -159,3 +169,11 @@ export const fetchPost = postId => async dispatch => {
   const response = await axios.get(`/posts/${postId}`);
   dispatch({ type: FETCH_OBJECT, payload: response.data });
 };
+
+export const setActiveBookmarkIndex = id => {
+
+  return {
+    type: CHANGE_BOOKMARK,
+    payload: id
+  }
+}
