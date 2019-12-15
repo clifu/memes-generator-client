@@ -21,21 +21,7 @@ const navItems = [
 
 class Header extends React.Component {
 
-    renderWelcome = () => {
-        if (this.props.isSignedIn)
-        {
-            return  <div style={{marginRight: '25px', display: 'inline-block'}}>
-                <div style={{color: 'white', margin: 'auto'}}>
-                    {`Witaj, ${this.props.username}`}
-                </div>
-                <div className="ui avatar image">
-                    <img src={this.props.thumbnailImageUrl} alt="image"/>
-              </div>
-                </div>
-        }
-    };
-
-    renderAuthButton = () => {
+   renderAuthButton = () => {
         if (this.props.isSignedIn === null || !this.props.isSignedIn)
             return (
                 <a className="item"
@@ -97,7 +83,7 @@ class Header extends React.Component {
             <div className="ui fixed inverted menu">
                 <div className="ui container">
                     {this.generateNavItems()}
-                    <div className="right menu"> {this.renderWelcome()} {this.renderAuthButton()}</div>
+                    <div className="right menu">{this.renderAuthButton()}</div>
                 </div>
             </div>
         );
