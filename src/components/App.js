@@ -6,6 +6,7 @@ import history from "../history";
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
 import Header from "./Header";
+import Profile from "./Profile/Profile"
 import PostsList from "./Memes/MemeList";
 import PostCreate from "./Memes/MemeCreate";
 import _ from "lodash";
@@ -16,7 +17,7 @@ import Cookies from "js-cookie";
 
 class App extends React.Component {
 
-    componentDidMount() {
+    componentWillMount() {
         var id = Cookies.get("userId");
         var token = Cookies.get("userToken");
         var expirationTime = Cookies.get("userTokenExpirationTime");
@@ -31,10 +32,12 @@ class App extends React.Component {
     }
 
     render() {
+        //let background = location.state && location.state.background;
+
         return (
             <div>
                 <Router history={history}>
-                    <Header/>
+                    <Header />
                     <div className="ui main container">
                         <div className="main container">
                             {this.props.notifications.map((notification, i) => (
@@ -42,10 +45,11 @@ class App extends React.Component {
                             ))}
                             <Switch>
                                 <Route path="/login" exact component={LoginForm}/>
+                                <Route path="/profile" exact component={Profile}/>
                                 <Route path="/register" exact component={RegisterForm}/>
                                 <Route path="/list" exact component={PostsList}/>
-                                <Route path="/posts/delete/:id" exact component={PostDelete}/>
-                                <Route path="/posts/edit/:id" exact component={PostEdit}/>
+                                <Route path="/list/delete/:id" exact component={PostDelete}/>
+                                <Route path="/list/edit/:id" exact component={PostEdit}/>
                                 <Route path="/postCreate" exact component={PostCreate}/>
                             </Switch>
                         </div>
@@ -57,7 +61,7 @@ class App extends React.Component {
 }
 
 const mapStateToProps = state => {
-    return {notifications: Object.values(state.notifications)};
+    return {notifications: Object.values(state.notifications)}
 };
 
 export default connect(

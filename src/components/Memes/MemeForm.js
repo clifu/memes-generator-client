@@ -41,12 +41,12 @@ class MemeForm extends React.Component {
       >
         {({ values, handleChange, handleBlur, handleSubmit }) => (
           <form className="ui fluid form error" onSubmit={handleSubmit}>
-            <label>Title</label>
+            <label>Tytuł</label>
             <div className="field">
               <input
                 type="text"
                 name="title"
-                placeholder="Title"
+                placeholder="Tytuł"
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.title}
@@ -58,12 +58,12 @@ class MemeForm extends React.Component {
                 )}
               />
             </div>
-            <label>Description</label>
+            <label>Opis</label>
             <div className="field">
               <input
                 type="text"
                 name="description"
-                placeholder="Description"
+                placeholder="Opis"
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.description}
@@ -98,14 +98,14 @@ class MemeForm extends React.Component {
           onClick={handleSubmit}
           type="submit"
         >
-          Save
+          Zapisz
         </button>
         <button
           className="ui button negative"
           onClick={this.onCancelButtonClick}
           type="submit"
         >
-          Cancel
+          Anuluj
         </button>
       </React.Fragment>
     );

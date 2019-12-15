@@ -24,7 +24,7 @@ class MemeEdit extends React.Component {
     }
     return (
       <div>
-        <h3>Edit post</h3>
+        <h3>Edycja mema</h3>
         <MemeForm
           onSubmit={this.onSubmit}
           initialValues={_.pick(this.props.post, "title", "description")}

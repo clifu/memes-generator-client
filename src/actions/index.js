@@ -42,6 +42,7 @@ const getUserDataAfterLogin = id => async dispatch => {
   Cookies.set("lastName", response.lastName);
   Cookies.set("profileImageUrl", response.profileImageUrl);
   Cookies.set("thumbnailImageUrl", response.thumbnailImageUrl);
+
   dispatch(saveUserData(response.data));
 };
 

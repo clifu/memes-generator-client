@@ -24,10 +24,10 @@ class MemeDelete extends React.Component {
 
   renderContent() {
     if (!this.props.post) {
-      return "Are you sure?";
+      return "Jesteś pewien, że chcesz usunać tego mema?";
     }
 
-    return `Are you sure you want to delete ${this.props.post.title}`;
+    return `Jesteś pewien, że chcesz usunąć mema ${this.props.post.title}?`;
   }
 
   renderActions() {
@@ -37,13 +37,13 @@ class MemeDelete extends React.Component {
           className="ui button negative"
           onClick={this.onDeleteButtonClick}
         >
-          Delete
+          Usuń
         </button>
         <button
           className="ui button positive"
           onClick={this.onCancel}
         >
-          Cancel
+          Anuluj
         </button>
       </React.Fragment>
     );
@@ -52,7 +52,7 @@ class MemeDelete extends React.Component {
   render() {
     return (
       <Modal
-        title="Delete post"
+        title="Usunąć mema ಥ╭╮ಥ?"
         content={this.renderContent()}
         actions={this.renderActions()}
         onDismiss={() => history.push("/list")}

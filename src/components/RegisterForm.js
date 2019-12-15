@@ -166,7 +166,10 @@ class RegisterForm extends React.Component {
                         </form>
                     )}
                 </Formik>
-                <div className="ui message">
+                <div className="ui horizontal divider">
+                    lub
+                </div>
+                <div className="ui message" style={{textAlign: 'center'}}>
                     Masz już konto?
                     <Link to="/login"> Przejdź do logowania!</Link>
                 </div>

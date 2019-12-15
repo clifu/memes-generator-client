@@ -12,6 +12,10 @@ const navItems = [
     {
         itemName: "Stwórz mema",
         path: "/postCreate"
+    },
+    {
+        itemName: "Profil",
+        path: "/profile"
     }
 ];
 
@@ -30,17 +34,6 @@ class Header extends React.Component {
                 </div>
         }
     };
-
-    componentWillUpdate(nextProps, nextState, nextContext) {
-
-        if (window.location.pathname === "/postCreate") {
-            history.push("/postCreate");
-            this.props.setActiveBookmarkIndex(1);
-        } else {
-            history.push("/list");
-            this.props.setActiveBookmarkIndex(0);
-        }
-    }
 
     renderAuthButton = () => {
         if (this.props.isSignedIn === null || !this.props.isSignedIn)
@@ -81,15 +74,18 @@ class Header extends React.Component {
         if (path === "/postCreate") {
             history.push("/postCreate");
             this.props.setActiveBookmarkIndex(1)
-        } else {
+        } else if(path === "/list") {
             history.push("/list");
             this.props.setActiveBookmarkIndex(0)
+        } else if(path === "/profile") {
+            history.push("/profile");
+            this.props.setActiveBookmarkIndex(2)
         }
     };
 
     generateNavItems() {
         return navItems.map((item, idx) => (
-            <a className={`item${idx === this.props.activeBookmarkIndex ? " active" : ""}`}
+            <a className={`item${idx === this.props.activeTabId ? " active" : ""}`}
                onClick={() => this.activateItemOnClick(item.path)}
                key={idx}> {item.itemName}
             </a>
@@ -110,9 +106,9 @@ class Header extends React.Component {
 
 const mapStateToProps = state => {
     return {isSignedIn: state.auth.isSignedIn,
-            username: state.auth.username,
-            thumbnailImageUrl: state.auth.thumbnailImageUrl,
-            activeBookmarkIndex: state.navigation.activeBookmarkId};
+        username: state.auth.username,
+        thumbnailImageUrl: state.auth.thumbnailImageUrl,
+        activeBookmarkIndex: state.navigation.activeBookmarkId};
 };
 
 export default connect(mapStateToProps, {signIn, signOut, setActiveBookmarkIndex})(Header);

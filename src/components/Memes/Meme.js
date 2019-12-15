@@ -1,4 +1,3 @@
-//temporary to display post
 import React from "react";
 import {Link} from "react-router-dom";
 import MemeDTO from "../../DTO/MemeDTO";
@@ -16,13 +15,13 @@ const Meme = props => {
             <div className="content">
                 <div className="ui right floated icon buttons">
                     <Link
-                        to={`/posts/edit/${post.id}`}
+                        to={`/list/edit/${post.id}`}
                         className="ui button">
                         <i className="edit outline icon"></i>
                     </Link>
                     <Link
                         className="ui button"
-                        to={`/posts/delete/${post.id}`}>
+                        to={`/list/delete/${post.id}`}>
                         <i className="trash alternate outline icon"></i>
                     </Link>
                 </div>

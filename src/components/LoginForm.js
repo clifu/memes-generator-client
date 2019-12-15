@@ -86,8 +86,11 @@ class LoginForm extends React.Component {
                             </form>
                         )}
                     </Formik>
-                    <div className="ui message">
-                        Nie masz konta? <Link to="/register">Zarejestruj się!</Link>
+                    <div className="ui horizontal divider">
+                       lub
+                    </div>
+                    <div className="ui message" style={{textAlign: 'center'}}>
+                        <Link to="/register">Zarejestruj się!</Link>
                     </div>
                 </div>
             </div>
