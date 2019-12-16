@@ -1,22 +1,23 @@
 import {
-  CREATE_OBJECT,
-  FETCH_OBJECT,
-  EDIT_OBJECT,
-  DELETE_OBJECT
+  CREATE_MEME,
+  FETCH_MEME,
+  EDIT_MEME,
+  DELETE_MEME,
+  FETCH_MEMES
 } from "../actions/types";
 import _ from "lodash";
 
 export default (state = [], action) => {
   switch (action.type) {
-    case "FETCH_DATA":
+    case FETCH_MEMES:
       return { ...state, ..._.mapKeys(action.payload, "id") };
-    case CREATE_OBJECT:
+    case CREATE_MEME:
       return { ...state, [action.payload.id]: action.payload };
-    case FETCH_OBJECT:
+    case FETCH_MEME:
       return { ...state, [action.payload.id]: action.payload };
-    case EDIT_OBJECT:
+    case EDIT_MEME:
       return { ...state, [action.payload.id]: action.payload };
-    case DELETE_OBJECT:
+    case DELETE_MEME:
       return _.omit(state, action.payload);
     default:
       return state;

@@ -1,21 +1,21 @@
 import _ from "lodash";
 import React from "react";
 import { connect } from "react-redux";
-import { fetchPost, editPost } from "../../actions";
+import { fetchMeme, editMeme } from "../../actions";
 import MemeForm from "./MemeForm";
-import history from '../../history'
+import history from "../../history";
 
 class MemeEdit extends React.Component {
   componentDidMount() {
-    this.props.fetchPost(this.props.match.params.id);
+    this.props.fetchMeme(this.props.match.params.id);
   }
 
   onCancel = () => {
     history.push("/list");
-  }
+  };
 
   onSubmit = formValues => {
-    this.props.editPost(this.props.match.params.id, formValues);
+    this.props.editMeme(this.props.match.params.id, formValues);
   };
 
   render() {
@@ -36,9 +36,7 @@ class MemeEdit extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  return { post: state.fakeData[ownProps.match.params.id] };
+  return { post: state.meme[ownProps.match.params.id] };
 };
 
-export default connect(mapStateToProps, { fetchPost, editPost })(
-  MemeEdit
-);
+export default connect(mapStateToProps, { fetchMeme, editMeme })(MemeEdit);

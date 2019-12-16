@@ -1,12 +1,12 @@
 import { combineReducers } from "redux";
 import authReducer from "./authReducer";
-import fakeDataReducer from "./fakeDataReducer";
+import memesReducer from "./memesReducer";
 import notificationReducer from "./notificationReducer";
-import navigationReducer from "./navigationReducer"
+import navigationReducer from "./navigationReducer";
 
 export default combineReducers({
   auth: authReducer,
-  fakeData: fakeDataReducer,  
+  meme: memesReducer,
   notifications: notificationReducer,
   navigation: navigationReducer
 });

@@ -2,17 +2,19 @@ import {
   SIGN_IN_SUCCESS,
   SIGN_OUT,
   REGISTER_USER_SUCESS,
-  CREATE_OBJECT,
-  EDIT_OBJECT,
-  DELETE_OBJECT,
-  FETCH_OBJECT,
+  CREATE_MEME,
+  EDIT_MEME,
+  DELETE_MEME,
+  FETCH_MEME,
   DISMISS_NOTIFICATION,
   DISPLAY_NOTIFICATION,
-  SAVE_USER_DATA, CHANGE_BOOKMARK
+  SAVE_USER_DATA,
+  CHANGE_BOOKMARK,
+  FETCH_MEMES
 } from "./types";
 import login from "../apis/login";
-import { getUserProfileDataByAccountId, getFakeData } from "../apis/gets";
-import { postFakeData } from "../apis/posts";
+import { getUserProfileDataByAccountId, getMemes } from "../apis/gets";
+import { postMeme } from "../apis/posts";
 import register from "../apis/register";
 import history from "../history";
 import axios from "../apis/axios";
@@ -23,12 +25,11 @@ import Cookies from "js-cookie";
 
 export const signIn = (email, password) => async dispatch => {
   await login(email, password)
-      .then(response => {
-        dispatch(loginSuccess(response.data));
-        history.push("/list");
-      })
-      .catch(error => dispatch(loginError(error)));
-
+    .then(response => {
+      dispatch(loginSuccess(response.data));
+      history.push("/list");
+    })
+    .catch(error => dispatch(loginError(error)));
 };
 
 export const loginFromCache = data => async dispatch => {
@@ -53,10 +54,13 @@ export const loginSuccess = (data, type) => async dispatch => {
   Cookies.set("userToken", token);
   Cookies.set("userTokenExpirationTime", expirationTime);
 
-  dispatch([getUserDataAfterLogin(id),{
-    type: type ? REGISTER_USER_SUCESS : SIGN_IN_SUCCESS,
-    payload: { id, token, expirationTime }
-  }]);
+  dispatch([
+    getUserDataAfterLogin(id),
+    {
+      type: type ? REGISTER_USER_SUCESS : SIGN_IN_SUCCESS,
+      payload: { id, token, expirationTime }
+    }
+  ]);
 
   history.push("/list");
 };
@@ -127,54 +131,51 @@ export const registerUser = ({
 };
 
 export const saveUserData = data => {
-
   return {
     type: SAVE_USER_DATA,
     payload: data
-  }
+  };
 };
 
 //region
-export const fetchFakeData = () => async dispatch => {
-  const response = await getFakeData();
+export const fetchMemes = () => async dispatch => {
+  const response = await getMemes();
   dispatch({
-    type: "FETCH_DATA",
+    type: FETCH_MEMES,
     payload: response.data
   });
 };
 
-export const createPost = data => async dispatch => {
- 
-  const response = await postFakeData(data);
+export const createMeme = data => async dispatch => {
+  const response = await postMeme(data);
   dispatch({
-    type: CREATE_OBJECT,
+    type: CREATE_MEME,
     payload: response.data
   });
   history.push("/list");
 };
 
-export const editPost = (postId, formValues) => async dispatch => {
+export const editMeme = (postId, formValues) => async dispatch => {
   var post = new MemeDTO(postId, formValues.title, formValues.description);
   const response = await axios.put(`/posts/${post.id}`, post);
-  dispatch({ type: EDIT_OBJECT, payload: post});
+  dispatch({ type: EDIT_MEME, payload: post });
   history.push("/list");
 };
 
-export const deletePost = postId => async dispatch => {
+export const deleteMeme = postId => async dispatch => {
   await axios.delete(`/posts/${postId}`);
-  dispatch({ type: DELETE_OBJECT, payload: postId });
+  dispatch({ type: DELETE_MEME, payload: postId });
   history.push("/list");
 };
 
-export const fetchPost = postId => async dispatch => {
+export const fetchMeme = postId => async dispatch => {
   const response = await axios.get(`/posts/${postId}`);
-  dispatch({ type: FETCH_OBJECT, payload: response.data });
+  dispatch({ type: FETCH_MEME, payload: response.data });
 };
 
 export const setActiveBookmarkIndex = id => {
-
   return {
     type: CHANGE_BOOKMARK,
     payload: id
-  }
-}
+  };
+};

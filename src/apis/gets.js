@@ -11,6 +11,6 @@ export const getUserProfileDataByAccountId = id => {
   return axios.get(`/users/accountId=${id}`, dt);
 };
 
-export const getFakeData = () => {
+export const getMemes = () => {
   return axios.get("/posts/");
 };

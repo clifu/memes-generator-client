@@ -1,25 +1,25 @@
 import React from "react";
 import Modal from "../Modal";
 import history from "../../history";
-import { deletePost, fetchPost } from "../../actions";
+import { deleteMeme, fetchMeme } from "../../actions";
 import { connect } from "react-redux";
 import _ from "lodash";
 
 class MemeDelete extends React.Component {
   componentDidMount() {
-    this.props.fetchPost(this.props.match.params.id);
+    this.props.fetchMeme(this.props.match.params.id);
   }
 
   onCancel = () => {
     history.push("/list");
-  }
+  };
 
   shouldComponentUpdate(nextProps, nextState) {
     return !_.isEqual(this.props, nextProps) || this.state !== nextState;
   }
 
   onDeleteButtonClick = () => {
-    this.props.deletePost(this.props.match.params.id);
+    this.props.deleteMeme(this.props.match.params.id);
   };
 
   renderContent() {
@@ -39,10 +39,7 @@ class MemeDelete extends React.Component {
         >
           Usuń
         </button>
-        <button
-          className="ui button positive"
-          onClick={this.onCancel}
-        >
+        <button className="ui button positive" onClick={this.onCancel}>
           Anuluj
         </button>
       </React.Fragment>
@@ -62,9 +59,7 @@ class MemeDelete extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  return { post: state.fakeData[ownProps.match.params.id] };
+  return { post: state.meme[ownProps.match.params.id] };
 };
 
-export default connect(mapStateToProps, { fetchPost, deletePost })(
-  MemeDelete
-);
+export default connect(mapStateToProps, { fetchMeme, deleteMeme })(MemeDelete);
