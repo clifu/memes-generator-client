@@ -68,19 +68,19 @@ class Profile extends React.Component {
   renderMenu = () => {
     return (
       <div className="ui three item menu">
-        {this.tabItems.map((item, idx) => (
-          <a
-            className={`item${
-              idx === this.state.activeTabIndex ? " active" : ""
-            }`}
-            onClick={() => this.activateItemOnClick(item.tabIndex)}
-            key={idx}
-          >
-            {item.tabName}
-          </a>
-        ))}
+        {this.tabItems.map((item, idx) => {
+            if(idx === 2) {
+              return (
+                  <a className={`item${idx === this.state.activeTabIndex ? " active" : ""}`} onClick={() => this.activateItemOnClick(item.tabIndex)} key={idx}>
+                    {item.tabName}
+                    <div className="floating ui red label">22</div>
+                  </a>
+              )
+        }
+          return <a className={`item${idx === this.state.activeTabIndex ? " active" : ""}`} onClick={() => this.activateItemOnClick(item.tabIndex)} key={idx}>{item.tabName}</a>
+        })}
       </div>
-    );
+    )
   };
 
   renderData = () => {
