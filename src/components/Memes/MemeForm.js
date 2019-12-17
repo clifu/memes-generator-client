@@ -2,6 +2,7 @@ import React from "react";
 import _ from "lodash";
 import { Formik, ErrorMessage } from "formik";
 import MemeDTO from "../../DTO/MemeDTO";
+import MemeCreator from "./AdditionalComponents/MemeCreator";
 
 class MemeForm extends React.Component {
   shouldComponentUpdate(nextProps, nextState) {
@@ -75,6 +76,8 @@ class MemeForm extends React.Component {
                 )}
               />
             </div>
+            {this.props.type === 'memeCreate' ?
+                <MemeCreator></MemeCreator> : ''}
             <div
               style={{
                 float: "right",

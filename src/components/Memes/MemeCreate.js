@@ -24,6 +24,7 @@ class MemeCreate extends React.Component {
         <MemeForm
           onSubmit={this.onSubmit}
           onCancelButtonClick={this.onCancel}
+          type='memeCreate'
         />
       </div>
     );
