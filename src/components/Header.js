@@ -70,13 +70,17 @@ class Header extends React.Component {
     };
 
     generateNavItems() {
-        return navItems.map((item, idx) => (
-            <a className={`item${idx === this.props.activeTabId ? " active" : ""}`}
-               onClick={() => this.activateItemOnClick(item.path)}
-               key={idx}> {item.itemName}
-            </a>
-        ));
+        return navItems.map((item, idx) => {
+        if (idx === 2 && !this.props.isSignedIn) {
+            return;
+        }
+        return <a className={`item${idx === this.props.activeTabId ? " active" : ""}`}
+           onClick={() => this.activateItemOnClick(item.path)}
+           key={idx}> {item.itemName}
+        </a>
+        });
     }
+
 
     render() {
         return (
