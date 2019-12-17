@@ -53,6 +53,7 @@ class Header extends React.Component {
 
     onSignOutClick = () => {
         this.props.signOut();
+        history.push("/list");
     };
 
     activateItemOnClick = path => {
