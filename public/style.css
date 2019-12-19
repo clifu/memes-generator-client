@@ -1,3 +1,7 @@
 .main.container {
     padding-top: 2em;
 }
+
+.ui.card {
+width: 650px;
+}

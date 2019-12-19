@@ -1,13 +1,13 @@
 import React from "react";
 import {Link} from "react-router-dom";
 import MemeDTO from "../../DTO/MemeDTO";
-
+import LazyLoad from 'react-lazy-load';
 
 const Meme = props => {
     //Way of assigning data to postDTO class
-    var post = new MemeDTO(props.data.id, props.data.title, props.data.description, props.data.imageUrl);
+    var post = new MemeDTO(props.data.id, props.data.name, props.data.name, props.data.url);
     return (
-        <div className="ui centered raised card">
+        <div className="ui centered card">
             <div className="image">
                 <img src={post.imageUrl} alt="image url"/>
             </div>
@@ -27,7 +27,16 @@ const Meme = props => {
                 </div>
                 {/*<span className="right floated"><i className="thumbs up outline icon"></i>17</span>*/}
                 {/*<span className="right floated"><i className="thumbs down outline icon"></i>3</span>*/}
-                <img className="ui avatar image" src={post.imageUrl} alt="image"/> loginUzytkownika
+
+                <LazyLoad
+                    debounce={false}
+                    throttle={250}
+                    >
+                    <img className="ui avatar image" src={post.imageUrl} alt="image"/>
+                </LazyLoad>
+
+
+                loginUzytkownika
             </div>
             <div className="content">
                 <div className="ui description">

@@ -108,7 +108,7 @@ class MemeCreator extends React.Component {
             style={{ display: "block", width: "400px", height: "400px" }}
             id="imageCanvas"
           >
-            <canvas id="canvasID"></canvas>
+            <canvas id="canvasID"/>
           </canvas>
         </div>
         <button className="btn" id="download" type="button">
