@@ -1,122 +1,182 @@
 import React from "react";
 import "./MemeCreator.css";
+import {Slider} from "react-semantic-ui-range";
 
 class MemeCreator extends React.Component {
-  state = {
-    topTextOnImage: ""
-  };
-
-  handleTopChange = event => {
-    this.setState({ topTextOnImage: event.target.value });
-  };
-
-  componentDidMount() {
-    var img = new Image();
-
-    const DrawPlaceholder = () => {
-      img.src = "https://unsplash.it/400/400/?random";
-      img.onload = () => {
-        canvas.width = img.width;
-        canvas.height = img.height;
-        DrawOverlay(img);
-        DrawText();
-        DynamicText(img);
-      };
+    state = {
+        templates: [],
+        selectedTemplateUrl: null,
+        value1: 4
     };
 
-    const DrawOverlay = img => {
-      ctx.drawImage(img, 0, 0);
-      ctx.fillStyle = "rgba(30, 144, 255, 0)";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-    };
+    componentDidMount() {
+        // this.props.fetchMemes();
+        fetch('https://api.imgflip.com/get_memes')
+            .then(data => data.json())
+            .then((data) => {
+                this.setState({templates: data.data.memes})
+            })
+            .catch(console.log)
+    }
 
-    const DrawText = () => {
-      ctx.fillStyle = "white";
-      ctx.textBaseline = "middle";
-      ctx.font = "50px 'Montserrat'";
-      ctx.fillText(this.state.topTextOnImage, 50, 50);
-    };
+    setSelectedTemplate(e) {
+        this.setState({selectedTemplateUrl: e.target.src})
+    }
 
-    const DynamicText = img => {
-      document.getElementById("name").addEventListener("keyup", () => {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        DrawOverlay(img);
-        DrawText();
-        ctx.fillText(this.state.topTextOnImage, 50, 50);
-      });
-    };
+    renderTemplate(template) {
+        return (<div className="ui template-card">
+            <div className="ui bordered rounded image" href="#">
+                <img src={template.url} onClick={(e) => this.setSelectedTemplate(e)}/>
+            </div>
+        </div>)
 
-    const handleImage = e => {
-      var reader = new FileReader();
-      var img = "";
-      var src = "";
-      reader.onload = event => {
-        img = new Image();
-        img.onload = () => {
-          canvas.width = img.width;
-          canvas.height = img.height;
-          ctx.drawImage(img, 0, 0);
-        };
-        img.src = event.target.result;
-        src = event.target.result;
-        canvas.classList.add("show");
-        DrawOverlay(img);
-        DrawText();
-        DynamicText(img);
-      };
-      reader.readAsDataURL(e.target.files[0]);
-    };
+    }
 
-    const convertToImage = () => {
-      var link = document.createElement("a");
-      link.download = "filename.png";
-      link.href = canvas.toDataURL("png");
-      link.click();
-    };
+    render() {
+        return (
+            <div className="container">
+                <div className="ui segment">
+                    {this.state.templates.map((template) => this.renderTemplate(template))}
+                </div>
 
-    var imageLoader = document.getElementById("imageLoader");
-    imageLoader.addEventListener("change", handleImage, false);
-    var canvas = document.getElementById("imageCanvas");
-    var ctx = canvas.getContext("2d");
-    img.crossOrigin = "anonymous";
-    DrawPlaceholder();
-    document.getElementById("download").addEventListener("click", () => {
-      convertToImage();
-    });
-  }
+                {this.state.selectedTemplateUrl ?
+                    this.renderSelectedTemplate()
 
-  render() {
-    return (
-      <div className="page-wrap">
-        <div className="controls">
-          <input
-            className="controls__input"
-            type="file"
-            id="imageLoader"
-            name="imageLoader"
-          />
-          <input
-            className="controls__input"
-            id="name"
-            type="text"
-            value={this.state.topTextOnImage}
-            onChange={this.handleTopChange}
-          />
-        </div>
-        <div id="canvas-wrap">
-          <canvas
-            style={{ display: "block", width: "400px", height: "400px" }}
-            id="imageCanvas"
-          >
-            <canvas id="canvasID"/>
-          </canvas>
-        </div>
-        <button className="btn" id="download" type="button">
-          Zapisz sobie memesa
-        </button>
-      </div>
-    );
-  }
+                    : null}
+
+            </div>
+
+        );
+    }
+
+    renderSelectedTemplate() {
+        return (
+
+            <div className="ui two column grid">
+                <div className="column">
+
+                    <div className="ui bordered centered medium rounded image">
+                        <img src={this.state.selectedTemplateUrl}/>
+                        <h2>A Movie in the Park:<br/>Kung Fu Panda</h2>
+                    </div>
+                </div>
+                <div className="column">
+                    <div className="ui relaxed list">
+                        <div className="item">
+                            <i className="large arrows alternate horizontal icon"/>
+                            <div className="content">
+                                <Slider
+                                    inverted={false}
+                                    settings={{
+                                        start: this.state.value1,
+                                        min: 0,
+                                        max: 10,
+                                        step: 1,
+                                        onChange: value => {
+                                            this.setState({
+                                                value1: value
+                                            });
+                                        }
+                                    }}
+                                />
+                            </div>
+                        </div>
+
+                        <div className="item">
+                            <i className="large text height icon"/>
+                            <div className="content">
+                                <Slider
+                                    inverted={false}
+                                    settings={{
+                                        start: this.state.value1,
+                                        min: 0,
+                                        max: 10,
+                                        step: 1,
+                                        onChange: value => {
+                                            this.setState({
+                                                value1: value
+                                            });
+                                        }
+                                    }}
+                                />
+                            </div>
+                        </div>
+                        <div className="item">
+                            <i className="large arrows alternate vertical icon"/>
+                            <div className="content">
+                                <Slider
+                                    inverted={false}
+                                    settings={{
+                                        start: this.state.value1,
+                                        min: 0,
+                                        max: 10,
+                                        step: 1,
+                                        onChange: value => {
+                                            this.setState({
+                                                value1: value
+                                            });
+                                        }
+                                    }}
+                                />
+                            </div>
+                        </div>
+                        <div className="item">
+                            <i className="large caret square down icon"/>
+                            <div className="content">
+                                <Slider
+                                    inverted={false}
+                                    settings={{
+                                        start: this.state.value1,
+                                        min: 0,
+                                        max: 10,
+                                        step: 1,
+                                        onChange: value => {
+                                            this.setState({
+                                                value1: value
+                                            });
+                                        }
+                                    }}
+                                />
+                            </div>
+                        </div>
+                        <div className="item">
+                            <i className="large caret square right icon"/>
+                            <div className="content">
+                                <Slider
+                                    inverted={false}
+                                    settings={{
+                                        start: this.state.value1,
+                                        min: 0,
+                                        max: 10,
+                                        step: 1,
+                                        onChange: value => {
+                                            this.setState({
+                                                value1: value
+                                            });
+                                        }
+                                    }}
+                                />
+                            </div>
+                        </div>
+                        <div className="item">
+                            <i className="large adjust icon"/>
+                            <div className="content">
+                                <div className="ui toggle checkbox">
+                                    <input type="checkbox"/>
+                                    <label/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {/*https://codesandbox.io/s/vm7yvzm103?from-embed*/}
+
+                </div>
+
+
+            </div>
+
+        );
+    }
 }
 
 export default MemeCreator;

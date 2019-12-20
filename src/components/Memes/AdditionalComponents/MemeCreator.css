@@ -1,55 +1,28 @@
-.page-wrap {
+.ui.segment {
+    overflow-x: scroll;
+    white-space: nowrap;
+    max-height: 200px;
+}
+
+.ui.template-card {
     display: inline-block;
-    margin: 2em auto;
-    position: relative;
-    text-align: center;
-    font-size: 1rem;
-    font-family: sans-serif;
-    padding-bottom: 3em;
+    width: 100px;
+    overflow: hidden;
+    vertical-align: middle;
+    margin: 5px;
 }
 
-#controls__input {
-     display: block;
-     margin: 0 auto;
-     background: none;
-     border: none;
-     font-size: 1em;
-     padding-bottom: .5em;
-     border-bottom: 2px solid #ccc;
-     text-align: center;
-     outline: none;
-     color: #fff;
- }
-
-#btn {
-     background: dodgerblue;
-     color: #fff;
-     border: none;
-     font-size: 1em;
+.ui.template-card > .image {
+    max-height: 100px;
 }
 
-#controls__input {
-     display: block;
-     font-size: .8em;
-     padding-top: .3em;
-     margin-bottom: 2em;
-}
-
-canvas {
-    background-color: #eee;
-    //opacity: 0;
-    transition: opacity .3s;
-}
-
-canvas.show {
-     opacity: 1;
-}
-
-
-.canvas-wrap {
-    margin-top: 50px;
+.image {
     position: relative;
 }
-#canvasID {
-    z-index: 9999;
+
+h2 {
+    position: absolute;
+    top: 0px;
+    left: 0;
+    width: 100%;
 }
