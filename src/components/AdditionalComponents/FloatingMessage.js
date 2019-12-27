@@ -16,13 +16,12 @@ class FloatingMessage extends React.Component {
   render() {
     return (
       <Message floating onDismiss={this.handleDismiss}>
-        {this.props.notification.message}
+        {this.props.notification.message
+          ? this.props.notification.message
+          : this.props.notification}
       </Message>
     );
   }
 }
 
-export default connect(
-  null,
-  { dismissNotification }
-)(FloatingMessage);
+export default connect(null, { dismissNotification })(FloatingMessage);

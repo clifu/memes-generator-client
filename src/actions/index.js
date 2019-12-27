@@ -103,6 +103,13 @@ const registerFailure = error => {
   };
 };
 
+export const processReceivedNotification = message => {
+  return {
+    type: DISPLAY_NOTIFICATION,
+    payload: { content: message.message }
+  };
+};
+
 export const registerUser = ({
   email,
   password,
