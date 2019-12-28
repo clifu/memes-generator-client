@@ -48,17 +48,18 @@ const getUserDataAfterLogin = id => async dispatch => {
 };
 
 export const loginSuccess = (data, type) => async dispatch => {
-  const { id, token, expirationTime } = data;
+  const { id, token, expirationTime, profileId } = data;
 
   Cookies.set("userId", id);
   Cookies.set("userToken", token);
   Cookies.set("userTokenExpirationTime", expirationTime);
+  Cookies.set("profileId", profileId);
 
   dispatch([
     getUserDataAfterLogin(id),
     {
       type: type ? REGISTER_USER_SUCESS : SIGN_IN_SUCCESS,
-      payload: { id, token, expirationTime }
+      payload: { id, token, expirationTime, profileId }
     }
   ]);
 
@@ -70,6 +71,7 @@ export const signOut = () => {
   Cookies.remove("userToken");
   Cookies.remove("userTokenExpirationTime");
   Cookies.remove("username");
+  Cookies.remove("profileId");
   Cookies.remove("firstName");
   Cookies.remove("lastName");
   Cookies.remove("profileImageUrl");

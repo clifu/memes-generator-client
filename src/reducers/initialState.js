@@ -3,7 +3,8 @@ const initialState = {
     isSignedIn: null,
     userId: null,
     userToken: null,
-    userTokenExpirationTime: null
+    userTokenExpirationTime: null,
+    profileId: null
   },
   notifications: [], //{ content: null, visible: false }
   userProfileData: {
@@ -16,7 +17,6 @@ const initialState = {
   activeBookmarkId: {
     activeBookmarkId: 0
   }
-
 };
 
 export default initialState;

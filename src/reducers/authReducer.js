@@ -14,7 +14,8 @@ export default (state = initialState.auth, action) => {
         isSignedIn: true,
         userId: action.payload.id,
         userToken: action.payload.token,
-        userTokenExpirationTime: action.payload.expirationTime
+        userTokenExpirationTime: action.payload.expirationTime,
+        profileId: action.payload.profileId
       };
     case REGISTER_USER_SUCESS:
       return {
@@ -22,7 +23,8 @@ export default (state = initialState.auth, action) => {
         isSignedIn: true,
         userId: action.payload.id,
         userToken: action.payload.token,
-        userTokenExpirationTime: action.payload.expirationTime
+        userTokenExpirationTime: action.payload.expirationTime,
+        profileId: action.payload.profileId
       };
     case SIGN_OUT:
       return {
@@ -30,7 +32,8 @@ export default (state = initialState.auth, action) => {
         isSignedIn: false,
         userId: null,
         userToken: null,
-        userTokenExpirationTime: null
+        userTokenExpirationTime: null,
+        profileId: null
       };
     case SAVE_USER_DATA:
       return {
@@ -40,7 +43,7 @@ export default (state = initialState.auth, action) => {
         lastName: action.payload.lastName,
         profileImageUrl: action.payload.profileImageUrl,
         thumbnailImageUrl: action.payload.thumbnailImageUrl
-      }
+      };
     default:
       return state;
   }

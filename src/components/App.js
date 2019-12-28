@@ -26,9 +26,10 @@ class App extends React.Component {
     var id = Cookies.get("userId");
     var token = Cookies.get("userToken");
     var expirationTime = Cookies.get("userTokenExpirationTime");
+    var profileId = Cookies.get("profileId");
 
-    if (id && token && expirationTime) {
-      this.props.loginFromCache({ id, token, expirationTime });
+    if (id && token && expirationTime && profileId) {
+      this.props.loginFromCache({ id, token, expirationTime, profileId });
     }
   }
 
@@ -55,10 +56,6 @@ class App extends React.Component {
         this.props.processReceivedNotification(message);
       });
     });
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return !_.isEqual(this.props, nextProps) || this.state !== nextState;
   }
 
   render() {
