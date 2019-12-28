@@ -18,7 +18,7 @@ import {
   getMemes,
   getMeme,
   getMemesOfMyFriends,
-  getMyMemes
+  getMemesForSpecificUser
 } from "../apis/gets";
 import { postMeme } from "../apis/posts";
 import { updateMeme } from "../apis/puts";

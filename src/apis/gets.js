@@ -13,8 +13,8 @@ export const getMemes = () => {
   return axios.get("/posts/");
 };
 
-export const getMyMemes = userId => {
-  return axios.get(`/posts/myMemes/userId=${userId}`, prepareDataWithToken());
+export const getMemesForSpecificUser = userId => {
+  return axios.get(`/posts/userId=${userId}`, prepareDataWithToken());
 };
 
 export const getMemesOfMyFriends = userId => {
