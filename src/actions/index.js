@@ -20,6 +20,7 @@ import history from "../history";
 import axios from "../apis/axios";
 import MemeDTO from "../DTO/MemeDTO";
 import Cookies from "js-cookie";
+import { toast } from "react-toastify";
 
 //AUTH SECTION
 
@@ -29,7 +30,7 @@ export const signIn = (email, password) => async dispatch => {
       dispatch(loginSuccess(response.data));
       history.push("/list");
     })
-    .catch(error => dispatch(loginError(error)));
+    .catch(error => loginError(error));
 };
 
 export const loginFromCache = data => async dispatch => {
@@ -49,7 +50,6 @@ const getUserDataAfterLogin = id => async dispatch => {
 
 export const loginSuccess = (data, type) => async dispatch => {
   const { id, token, expirationTime, profileId } = data;
-
   Cookies.set("userId", id);
   Cookies.set("userToken", token);
   Cookies.set("userTokenExpirationTime", expirationTime);
@@ -81,12 +81,8 @@ export const signOut = () => {
 };
 
 const loginError = error => {
-  history.push("/login");
+  toast.error(error.response ? error.response.data.message : error.message);
   console.log(error);
-  return {
-    type: DISPLAY_NOTIFICATION,
-    payload: { content: error.response ? error.response.data : error }
-  };
 };
 
 export const dismissNotification = id => {
@@ -97,19 +93,12 @@ export const dismissNotification = id => {
 };
 
 const registerFailure = error => {
-  history.push("/register");
+  toast.error(error.response ? error.response.data.message : error.message);
   console.log(error);
-  return {
-    type: DISPLAY_NOTIFICATION,
-    payload: { content: error.response ? error.response.data : error }
-  };
 };
 
 export const processReceivedNotification = message => {
-  return {
-    type: DISPLAY_NOTIFICATION,
-    payload: { content: message.message }
-  };
+  toast.info(message.message);
 };
 
 export const registerUser = ({
@@ -134,7 +123,7 @@ export const registerUser = ({
     .then(response =>
       dispatch(loginSuccess(response.data, REGISTER_USER_SUCESS))
     )
-    .catch(error => dispatch(registerFailure(error)));
+    .catch(error => registerFailure(error));
 
   return {};
 };

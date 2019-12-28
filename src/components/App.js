@@ -12,9 +12,10 @@ import PostCreate from "./Memes/MemeCreate";
 import _ from "lodash";
 import PostDelete from "./Memes/MemeDelete";
 import PostEdit from "./Memes/MemeEdit";
-import FloatingMessage from "./AdditionalComponents/FloatingMessage";
 import Cookies from "js-cookie";
 import { HubConnectionBuilder } from "@aspnet/signalr";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 class App extends React.Component {
   state = {
@@ -65,9 +66,7 @@ class App extends React.Component {
           <Header />
           <div className="ui main container">
             <div className="main container">
-              {this.props.notifications.map((notification, i) => (
-                <FloatingMessage notification={notification} key={i} id={i} />
-              ))}
+              <ToastContainer position={toast.POSITION.TOP_RIGHT} />
               <Switch>
                 <Route path="/login" exact component={LoginForm} />
                 <Route path="/profile" exact component={Profile} />

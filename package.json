@@ -19,6 +19,7 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "^3.3.0",
     "react-semantic-ui-range": "^0.7.0",
+    "react-toastify": "^5.4.1",
     "redux": "^4.0.4",
     "redux-batched-subscribe": "^0.1.6",
     "redux-form": "^8.2.6",
