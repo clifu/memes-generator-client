@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Router, Switch } from "react-router-dom";
+import { Route, Router, Switch, Redirect } from "react-router-dom";
 import { loginFromCache, processReceivedNotification } from "../actions";
 import { connect } from "react-redux";
 import history from "../history";
@@ -62,7 +62,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Router history={history}>
+        <Router basename={"/list"} history={history}>
           <Header />
           <div className="ui main container">
             <div className="main container">
@@ -75,6 +75,7 @@ class App extends React.Component {
                 <Route path="/list/delete/:id" exact component={PostDelete} />
                 <Route path="/list/edit/:id" exact component={PostEdit} />
                 <Route path="/postCreate" exact component={PostCreate} />
+                <Redirect to="/list" />
               </Switch>
             </div>
           </div>
