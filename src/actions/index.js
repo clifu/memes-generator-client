@@ -13,8 +13,16 @@ import {
   FETCH_MEMES
 } from "./types";
 import login from "../apis/login";
-import { getUserProfileDataByAccountId, getMemes } from "../apis/gets";
+import {
+  getUserProfileDataByAccountId,
+  getMemes,
+  getMeme,
+  getMemesOfMyFriends,
+  getMyMemes
+} from "../apis/gets";
 import { postMeme } from "../apis/posts";
+import { updateMeme } from "../apis/puts";
+import { deleteThatMeme } from "../apis/deletions";
 import register from "../apis/register";
 import history from "../history";
 import axios from "../apis/axios";
@@ -155,19 +163,19 @@ export const createMeme = data => async dispatch => {
 
 export const editMeme = (postId, formValues) => async dispatch => {
   var post = new MemeDTO(postId, formValues.title, formValues.description);
-  const response = await axios.put(`/posts/${post.id}`, post);
+  const response = await updateMeme(post);
   dispatch({ type: EDIT_MEME, payload: post });
   history.push("/list");
 };
 
 export const deleteMeme = postId => async dispatch => {
-  await axios.delete(`/posts/${postId}`);
+  await deleteThatMeme(postId);
   dispatch({ type: DELETE_MEME, payload: postId });
   history.push("/list");
 };
 
 export const fetchMeme = postId => async dispatch => {
-  const response = await axios.get(`/posts/${postId}`);
+  const response = await getMeme(postId);
   dispatch({ type: FETCH_MEME, payload: response.data });
 };
 
