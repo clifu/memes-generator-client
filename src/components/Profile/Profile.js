@@ -1,11 +1,37 @@
 import React from "react";
 import MemeList from "../Memes/MemeList";
 import Meme from "../Memes/Meme";
+import { connect } from "react-redux";
+import {
+  fetchUserProfile,
+  fetchFriendsForSpecificUser,
+  fetchMemesForSpecificUser,
+  fetchAllPendingFriendRequests
+} from "../../actions";
 
 class Profile extends React.Component {
   state = {
-    activeTabIndex: 0
+    activeTabIndex: 0,
+    sameAsLoggedUser: null,
+    userId: null
   };
+
+  componentWillMount() {
+    this.setState({
+      sameAsLoggedUser:
+        this.props.match.params.id === this.props.loggedUserProfileId,
+      userId: this.props.match.params.id
+    });
+  }
+
+  componentDidMount() {
+    this.props.fetchUserProfile(this.state.userId);
+    this.props.fetchFriendsForSpecificUser(this.state.userId);
+    this.props.fetchMemesForSpecificUser(this.state.userId);
+    if (this.state.sameAsLoggedUser) {
+      this.props.fetchAllPendingFriendRequests(this.state.userId);
+    }
+  }
 
   tabItems = [
     {
@@ -27,10 +53,7 @@ class Profile extends React.Component {
       <div className="ui internally celled grid">
         <div className="six wide column">
           <div className="ui medium circular image">
-            <img
-              src="https://www.national-geographic.pl/media/cache/default_view/uploads/media/default/0012/70/nie-uwierzysz-jak-powstalo-najslynniejsze-zdjecie-einsteina-przeczytaj-historie.jpeg"
-              alt="image url"
-            />
+            <img src={this.props.profileImageUrl} alt="image url" />
           </div>
         </div>
         <div className="ten wide column">
@@ -43,7 +66,7 @@ class Profile extends React.Component {
                 justifyContent: "space-between"
               }}
             >
-              Username
+              {this.props.username}
               <button className="ui button">Edytuj profil</button>
               <button className="circular ui icon button">
                 <i className="icon settings"></i>
@@ -67,20 +90,41 @@ class Profile extends React.Component {
 
   renderMenu = () => {
     return (
-      <div className="ui three item menu">
+      <div
+        className={`ui ${
+          this.state.sameAsLoggedUser ? "three" : "two"
+        } item menu`}
+      >
         {this.tabItems.map((item, idx) => {
-            if(idx === 2) {
-              return (
-                  <a className={`item${idx === this.state.activeTabIndex ? " active" : ""}`} onClick={() => this.activateItemOnClick(item.tabIndex)} key={idx}>
-                    {item.tabName}
-                    <div className="floating ui red label">22</div>
-                  </a>
-              )
-        }
-          return <a className={`item${idx === this.state.activeTabIndex ? " active" : ""}`} onClick={() => this.activateItemOnClick(item.tabIndex)} key={idx}>{item.tabName}</a>
+          if (idx === 2 && this.state.sameAsLoggedUser) {
+            return (
+              <a
+                className={`item${
+                  idx === this.state.activeTabIndex ? " active" : ""
+                }`}
+                onClick={() => this.activateItemOnClick(item.tabIndex)}
+                key={idx}
+              >
+                {item.tabName}
+                <div className="floating ui red label">22</div>
+              </a>
+            );
+          }
+          if (idx !== 2)
+            return (
+              <a
+                className={`item${
+                  idx === this.state.activeTabIndex ? " active" : ""
+                }`}
+                onClick={() => this.activateItemOnClick(item.tabIndex)}
+                key={idx}
+              >
+                {item.tabName}
+              </a>
+            );
         })}
       </div>
-    )
+    );
   };
 
   renderData = () => {
@@ -130,15 +174,37 @@ class Profile extends React.Component {
   };
 
   render() {
-    return (
-      <div>
-        {this.renderUserData()}
-        <div className="ui divider" />
-        {this.renderMenu()}
-        {this.renderData()}
-      </div>
-    );
+    if (this.props.username !== null)
+      return (
+        <div>
+          {this.renderUserData()}
+          <div className="ui divider" />
+          {this.renderMenu()}
+          {this.renderData()}
+        </div>
+      );
+    else return <div>Dane profilu sie ładują...</div>;
   }
 }
 
-export default Profile;
+const mapStateToProps = state => {
+  return {
+    loggedUserProfileId: state.auth.profileId,
+    loggedUser: state.userProfileData,
+    username: state.viewedProfileData.username,
+    firstName: state.viewedProfileData.firstName,
+    lastName: state.viewedProfileData.lastName,
+    userProfileId: state.viewedProfileData.userProfileId,
+    profileImageUrl: state.viewedProfileData.profileImageUrl,
+    friends: state.viewedProfileData.friends,
+    memes: state.viewedProfileData.userMemes,
+    pendingFriendRequests: state.viewedProfileData.pendingFriendRequests
+  };
+};
+
+export default connect(mapStateToProps, {
+  fetchUserProfile,
+  fetchFriendsForSpecificUser,
+  fetchMemesForSpecificUser,
+  fetchAllPendingFriendRequests
+})(Profile);

@@ -3,10 +3,14 @@ import authReducer from "./authReducer";
 import memesReducer from "./memesReducer";
 import notificationReducer from "./notificationReducer";
 import navigationReducer from "./navigationReducer";
+import viewedUserProfileReducer from "./viewedUserProfileReducer";
+import userProfileReducer from "./userProfileReducer";
 
 export default combineReducers({
   auth: authReducer,
   meme: memesReducer,
   notifications: notificationReducer,
-  navigation: navigationReducer
+  navigation: navigationReducer,
+  viewedProfileData: viewedUserProfileReducer,
+  userProfileData: userProfileReducer
 });

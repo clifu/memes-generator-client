@@ -24,6 +24,24 @@ export const getMemesOfMyFriends = userId => {
   );
 };
 
+export const getFriendsOfSpecificUser = userId => {
+  return axios.get(
+    `/friends/myFriends/userId=${userId}`,
+    prepareDataWithToken()
+  );
+};
+
+export const getUserProfileDataByUserProfileId = id => {
+  return axios.get(`/users/profileId=${id}`, prepareDataWithToken());
+};
+
+export const getAllPendingFriendRequests = userId => {
+  return axios.get(
+    `/friendRequests/myRequests/userId=${userId}`,
+    prepareDataWithToken()
+  );
+};
+
 function prepareDataWithToken() {
   const dt = {
     headers: {

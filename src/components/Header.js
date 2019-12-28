@@ -15,7 +15,7 @@ const navItems = [
   },
   {
     itemName: "Profil",
-    path: "/profile"
+    path: `/profile`
   }
 ];
 
@@ -71,8 +71,8 @@ class Header extends React.Component {
     } else if (path === "/list") {
       history.push("/list");
       this.props.setActiveBookmarkIndex(0);
-    } else if (path === "/profile") {
-      history.push("/profile");
+    } else if (path === `/profile`) {
+      history.push(`/profile/${this.props.userProfileId}`);
       this.props.setActiveBookmarkIndex(2);
     }
   };
@@ -111,6 +111,7 @@ const mapStateToProps = state => {
   return {
     isSignedIn: state.auth.isSignedIn,
     username: state.auth.username,
+    userProfileId: state.auth.profileId,
     thumbnailImageUrl: state.auth.thumbnailImageUrl,
     activeBookmarkIndex: state.navigation.activeBookmarkId
   };

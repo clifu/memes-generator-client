@@ -35,16 +35,7 @@ export default (state = initialState.auth, action) => {
         userTokenExpirationTime: null,
         profileId: null
       };
-    case SAVE_USER_DATA:
-      return {
-        ...state,
-        username: action.payload.username,
-        firstName: action.payload.firstName,
-        lastName: action.payload.lastName,
-        profileImageUrl: action.payload.profileImageUrl,
-        thumbnailImageUrl: action.payload.thumbnailImageUrl
-      };
     default:
-      return state;
+      return { ...state };
   }
 };

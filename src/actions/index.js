@@ -10,7 +10,11 @@ import {
   DISPLAY_NOTIFICATION,
   SAVE_USER_DATA,
   CHANGE_BOOKMARK,
-  FETCH_MEMES
+  FETCH_MEMES,
+  FETCH_USER_PROFILE,
+  FETCH_MEMES_FOR_USER_PROFILE,
+  FETCH_FRIENDS_FOR_USER_PROFILE,
+  FETCH_PENDING_FRIEND_REQUESTS
 } from "./types";
 import login from "../apis/login";
 import {
@@ -18,7 +22,10 @@ import {
   getMemes,
   getMeme,
   getMemesOfMyFriends,
-  getMemesForSpecificUser
+  getMemesForSpecificUser,
+  getUserProfileDataByUserProfileId,
+  getFriendsOfSpecificUser,
+  getAllPendingFriendRequests
 } from "../apis/gets";
 import { postMeme } from "../apis/posts";
 import { updateMeme } from "../apis/puts";
@@ -143,7 +150,7 @@ export const saveUserData = data => {
   };
 };
 
-//region
+//region MEMES
 export const fetchMemes = () => async dispatch => {
   const response = await getMemes();
   dispatch({
@@ -177,6 +184,31 @@ export const deleteMeme = postId => async dispatch => {
 export const fetchMeme = postId => async dispatch => {
   const response = await getMeme(postId);
   dispatch({ type: FETCH_MEME, payload: response.data });
+};
+
+//region USER PROFILES
+export const fetchUserProfile = userProfileId => async dispatch => {
+  const response = await getUserProfileDataByUserProfileId(userProfileId);
+  dispatch({ type: FETCH_USER_PROFILE, payload: response.data });
+  history.push(`/profile/${userProfileId}`);
+};
+
+export const fetchMemesForSpecificUser = userProfileId => async dispatch => {
+  //const response = await getMemesForSpecificUser(userProfileId);
+  dispatch({ type: FETCH_MEMES_FOR_USER_PROFILE, payload: [] });
+};
+
+export const fetchFriendsForSpecificUser = userProfileId => async dispatch => {
+  //const response = await getFriendsOfSpecificUser(userProfileId);
+  dispatch({ type: FETCH_FRIENDS_FOR_USER_PROFILE, payload: [] });
+};
+
+export const fetchAllPendingFriendRequests = userProfileId => async dispatch => {
+  const response = await getAllPendingFriendRequests(userProfileId);
+  dispatch({
+    type: FETCH_PENDING_FRIEND_REQUESTS,
+    payload: response.data
+  });
 };
 
 export const setActiveBookmarkIndex = id => {

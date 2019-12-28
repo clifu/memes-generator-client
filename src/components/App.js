@@ -69,7 +69,7 @@ class App extends React.Component {
               <ToastContainer position={toast.POSITION.TOP_RIGHT} />
               <Switch>
                 <Route path="/login" exact component={LoginForm} />
-                <Route path="/profile" exact component={Profile} />
+                <Route path="/profile/:id" exact component={Profile} />
                 <Route path="/register" exact component={RegisterForm} />
                 <Route path="/list" exact component={PostsList} />
                 <Route path="/list/delete/:id" exact component={PostDelete} />
