@@ -1,35 +1,61 @@
 import React from "react";
 import MemeList from "../Memes/MemeList";
-import Meme from "../Memes/Meme";
 import { connect } from "react-redux";
 import {
   fetchUserProfile,
   fetchFriendsForSpecificUser,
   fetchMemesForSpecificUser,
-  fetchAllPendingFriendRequests
+  fetchAllPendingFriendRequests,
+  rejectFriendRequest,
+  acceptFriendRequest,
+  clearViewedProfile
 } from "../../actions";
+import { Link } from "react-router-dom";
 
 class Profile extends React.Component {
-  state = {
-    activeTabIndex: 0,
-    sameAsLoggedUser: null,
-    userId: null
-  };
+  constructor(props) {
+    super(props);
 
-  componentWillMount() {
-    this.setState({
+    this.state = {
+      activeTabIndex: 0,
       sameAsLoggedUser:
         this.props.match.params.id === this.props.loggedUserProfileId,
       userId: this.props.match.params.id
-    });
+    };
   }
 
-  componentDidMount() {
-    this.props.fetchUserProfile(this.state.userId);
-    this.props.fetchFriendsForSpecificUser(this.state.userId);
-    this.props.fetchMemesForSpecificUser(this.state.userId);
+  shouldComponentUpdate() {
+    if (
+      this.props.viewedProfileId &&
+      this.props.viewedProfileId !== document.location.pathname.split(`/`)[2]
+    ) {
+      this.props.clearViewedProfile();
+      this.props.fetchUserProfile(document.location.pathname.split(`/`)[2]);
+      this.props.fetchFriendsForSpecificUser(
+        document.location.pathname.split(`/`)[2]
+      );
+      this.props.fetchMemesForSpecificUser(
+        document.location.pathname.split(`/`)[2]
+      );
+      if (
+        document.location.pathname.split(`/`)[2] ===
+        this.props.loggedUserProfileId
+      ) {
+        this.props.fetchAllPendingFriendRequests(
+          document.location.pathname.split(`/`)[2]
+        );
+      }
+    }
+
+    return true;
+  }
+
+  componentWillMount() {
+    this.props.fetchUserProfile(this.props.match.params.id);
+    this.props.fetchFriendsForSpecificUser(this.props.match.params.id);
+    this.props.fetchMemesForSpecificUser(this.props.match.params.id);
     if (this.state.sameAsLoggedUser) {
-      this.props.fetchAllPendingFriendRequests(this.state.userId);
+      this.props.fetchAllPendingFriendRequests(this.props.match.params.id);
     }
   }
 
@@ -53,36 +79,65 @@ class Profile extends React.Component {
       <div className="ui internally celled grid">
         <div className="six wide column">
           <div className="ui medium circular image">
-            <img src={this.props.profileImageUrl} alt="image url" />
+            <img
+              src={
+                this.props.profileImageUrl !== ""
+                  ? this.props.profileImageUrl
+                  : "placeholderTODO"
+              }
+              alt="userProfileImage"
+            />
           </div>
         </div>
         <div className="ten wide column">
           <div style={{ margin: "auto" }}>
-            <div
-              className="row"
-              style={{
-                textAlign: "center",
-                display: "flex",
-                justifyContent: "space-between"
-              }}
-            >
-              {this.props.username}
-              <button className="ui button">Edytuj profil</button>
-              <button className="circular ui icon button">
-                <i className="icon settings"></i>
-              </button>
+            <div className="row">{this.renderEditButtonsWithUsernameRow()}</div>
+            <div className="row" style={{ textAlign: "center" }}>
+              Memy:{this.props.memes.length} Liczba znajomych:
+              {this.props.friends.length}
             </div>
             <div className="row" style={{ textAlign: "center" }}>
-              Memy:0 Liczba znajomych 0
-            </div>
-            <div className="row" style={{ textAlign: "center" }}>
-              Imie i nazwisko
+              {this.props.firstName} {this.props.lastName}
             </div>
           </div>
         </div>
       </div>
     );
   };
+
+  renderEditButtonsWithUsernameRow() {
+    if (
+      document.location.pathname.split(`/`)[2] ===
+      this.props.loggedUserProfileId
+    )
+      return (
+        <div
+          style={{
+            textAlign: "center",
+            display: "flex",
+            justifyContent: "space-between"
+          }}
+        >
+          {this.props.username}
+          <button className="ui button">Edytuj profil</button>
+          <button className="circular ui icon button">
+            <i className="icon settings"></i>
+          </button>
+        </div>
+      );
+    else {
+      return (
+        <div
+          style={{
+            textAlign: "center",
+            justifyContent: "space-between"
+          }}
+        >
+          {this.props.username}
+        </div>
+      );
+    }
+  }
 
   activateItemOnClick = id => {
     this.setState({ activeTabIndex: id });
@@ -92,11 +147,18 @@ class Profile extends React.Component {
     return (
       <div
         className={`ui ${
-          this.state.sameAsLoggedUser ? "three" : "two"
+          document.location.pathname.split(`/`)[2] ===
+          this.props.loggedUserProfileId
+            ? "three"
+            : "two"
         } item menu`}
       >
         {this.tabItems.map((item, idx) => {
-          if (idx === 2 && this.state.sameAsLoggedUser) {
+          if (
+            idx === 2 &&
+            document.location.pathname.split(`/`)[2] ===
+              this.props.loggedUserProfileId
+          ) {
             return (
               <a
                 className={`item${
@@ -106,7 +168,18 @@ class Profile extends React.Component {
                 key={idx}
               >
                 {item.tabName}
-                <div className="floating ui red label">22</div>
+                <div
+                  className="floating ui red label"
+                  style={{
+                    visibility: `${
+                      this.props.pendingFriendRequests.length < 1
+                        ? "hidden"
+                        : "visible"
+                    }`
+                  }}
+                >
+                  {this.props.pendingFriendRequests.length}
+                </div>
               </a>
             );
           }
@@ -132,46 +205,111 @@ class Profile extends React.Component {
       //memes
       return <MemeList />;
     } else if (this.state.activeTabIndex === 1) {
+      return this.renderFriendsList();
     } else if (this.state.activeTabIndex === 2) {
-      //friends requests TEMPORARY TODO
-      return (
-        <div className="ui cards">
-          <div className="card">
-            <div className="content">
-              <img className="right floated mini ui image" src="" />
-              <div className="header">Elliot Fu</div>
-              <div className="meta">Friends of Veronika</div>
-              <div className="description">
-                Elliot requested permission to view your contact details
-              </div>
-            </div>
-            <div className="extra content">
-              <div className="ui two buttons">
-                <div className="ui basic green button">Approve</div>
-                <div className="ui basic red button">Decline</div>
-              </div>
-            </div>
-          </div>
-          <div className="card">
-            <div className="content">
-              <img className="right floated mini ui image" src="" />
-              <div className="header">Jenny Hess</div>
-              <div className="meta">New Member</div>
-              <div className="description">
-                Jenny wants to add you to the group <b>best friends</b>
-              </div>
-            </div>
-            <div className="extra content">
-              <div className="ui two buttons">
-                <div className="ui basic green button">Approve</div>
-                <div className="ui basic red button">Decline</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      );
+      //friends requests
+      return this.renderPendingFriendsRequests();
     }
   };
+
+  renderPendingFriendsRequests() {
+    return (
+      <div className="ui cards">
+        {this.props.pendingFriendRequests.map(friendRequest => {
+          return (
+            <div className="card">
+              <div className="content">
+                <img
+                  className="right floated mini ui image"
+                  src={
+                    friendRequest.friendRequestSenderProfile
+                      .thumbnailImageUrl !== ""
+                      ? friendRequest.friendRequestSenderProfile
+                          .thumbnailImageUrl
+                      : "placeholderTODO"
+                  }
+                  alt="userProfileThumbnail"
+                />
+                <div className="header">
+                  {friendRequest.friendRequestSenderProfile.firstName}{" "}
+                  {friendRequest.friendRequestSenderProfile.lastName}
+                </div>
+                <div className="meta">
+                  {friendRequest.friendRequestSenderProfile.username}
+                </div>
+                <div className="description">
+                  Użytkownik{" "}
+                  {friendRequest.friendRequestSenderProfile.firstName}{" "}
+                  zaprosił/zaprosiła Cie do grona znajomych!
+                </div>
+                <div className="extra content">
+                  <div className="ui two buttons">
+                    <div
+                      className="ui basic green button"
+                      onClick={this.acceptFriendRequest(
+                        friendRequest.friendRequest.id,
+                        friendRequest.friendRequest
+                      )}
+                    >
+                      Zatwierdź
+                    </div>
+                    <div
+                      className="ui basic red button"
+                      onClick={this.rejectFriendRequest(
+                        friendRequest.friendRequest.id,
+                        friendRequest.friendRequest
+                      )}
+                    >
+                      Odrzuć
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    );
+  }
+
+  renderFriendsList() {
+    return (
+      <div className="ui cards">
+        {this.props.friends.map(friendProfile => {
+          return (
+            <div className="ui card">
+              <div className="image">
+                <img
+                  src={
+                    friendProfile.profileImageUrl !== ""
+                      ? friendProfile.profileImageUrl
+                      : "placeholderTODO"
+                  }
+                  alt="userProfileImage"
+                />
+              </div>
+              <div className="content">
+                <div className="header">{friendProfile.username}</div>
+                <div className="meta">
+                  <span>
+                    {friendProfile.firstName} {friendProfile.lastName}
+                  </span>
+                </div>
+                <div className="extra content">
+                  <Link
+                    className="ui basic button"
+                    to={`/profile/${friendProfile.id}`}
+                  >
+                    Wyświetl profil
+                  </Link>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    );
+  }
 
   render() {
     if (this.props.username !== null)
@@ -192,13 +330,14 @@ const mapStateToProps = state => {
     loggedUserProfileId: state.auth.profileId,
     loggedUser: state.userProfileData,
     username: state.viewedProfileData.username,
+    viewedProfileId: state.viewedProfileData.userProfileId,
     firstName: state.viewedProfileData.firstName,
     lastName: state.viewedProfileData.lastName,
     userProfileId: state.viewedProfileData.userProfileId,
     profileImageUrl: state.viewedProfileData.profileImageUrl,
     friends: state.viewedProfileData.friends,
     memes: state.viewedProfileData.userMemes,
-    pendingFriendRequests: state.viewedProfileData.pendingFriendRequests
+    pendingFriendRequests: state.viewedProfileData.friendsRequests
   };
 };
 
@@ -206,5 +345,8 @@ export default connect(mapStateToProps, {
   fetchUserProfile,
   fetchFriendsForSpecificUser,
   fetchMemesForSpecificUser,
-  fetchAllPendingFriendRequests
+  fetchAllPendingFriendRequests,
+  acceptFriendRequest,
+  rejectFriendRequest,
+  clearViewedProfile
 })(Profile);

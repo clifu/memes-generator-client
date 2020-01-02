@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Router, Switch, Redirect } from "react-router-dom";
+import { Route, Router, Switch, Redirect, Link } from "react-router-dom";
 import { loginFromCache, processReceivedNotification } from "../actions";
 import { connect } from "react-redux";
 import history from "../history";
@@ -67,6 +67,13 @@ class App extends React.Component {
           <div className="ui main container">
             <div className="main container">
               <ToastContainer position={toast.POSITION.TOP_RIGHT} />
+              <button
+                onClick={() =>
+                  history.push("/profile/c5c788dd-8dd8-4a44-a0e8-d9a5294c212d")
+                }
+              >
+                TEST
+              </button>
               <Switch>
                 <Route path="/login" exact component={LoginForm} />
                 <Route path="/profile/:id" exact component={Profile} />

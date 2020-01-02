@@ -14,7 +14,8 @@ import {
   FETCH_USER_PROFILE,
   FETCH_MEMES_FOR_USER_PROFILE,
   FETCH_FRIENDS_FOR_USER_PROFILE,
-  FETCH_PENDING_FRIEND_REQUESTS
+  FETCH_PENDING_FRIEND_REQUESTS,
+  CLEAR_VIEWED_PROFILE
 } from "./types";
 import login from "../apis/login";
 import {
@@ -28,7 +29,11 @@ import {
   getAllPendingFriendRequests
 } from "../apis/gets";
 import { postMeme } from "../apis/posts";
-import { updateMeme } from "../apis/puts";
+import {
+  updateMeme,
+  rejectPendingFriendRequest,
+  acceptPendingFriendRequest
+} from "../apis/puts";
 import { deleteThatMeme } from "../apis/deletions";
 import register from "../apis/register";
 import history from "../history";
@@ -78,6 +83,7 @@ export const loginSuccess = (data, type) => async dispatch => {
     }
   ]);
 
+  history.push("/list");
   history.push("/list");
 };
 
@@ -194,21 +200,51 @@ export const fetchUserProfile = userProfileId => async dispatch => {
 };
 
 export const fetchMemesForSpecificUser = userProfileId => async dispatch => {
-  //const response = await getMemesForSpecificUser(userProfileId);
-  dispatch({ type: FETCH_MEMES_FOR_USER_PROFILE, payload: [] });
+  const response = await getMemesForSpecificUser(userProfileId);
+  dispatch({ type: FETCH_MEMES_FOR_USER_PROFILE, payload: response.data });
 };
 
 export const fetchFriendsForSpecificUser = userProfileId => async dispatch => {
-  //const response = await getFriendsOfSpecificUser(userProfileId);
-  dispatch({ type: FETCH_FRIENDS_FOR_USER_PROFILE, payload: [] });
+  const response = await getFriendsOfSpecificUser(userProfileId);
+  dispatch({ type: FETCH_FRIENDS_FOR_USER_PROFILE, payload: response.data });
 };
 
 export const fetchAllPendingFriendRequests = userProfileId => async dispatch => {
   const response = await getAllPendingFriendRequests(userProfileId);
+  var allFriendRequestsWithProfiles = await response.data.map(
+    async friendRequest => {
+      var friendProfile = await getUserProfileDataByUserProfileId(
+        friendRequest.senderId
+      );
+      return {
+        friendRequest: friendRequest,
+        friendRequestSenderProfile: friendProfile
+      };
+    }
+  );
+
   dispatch({
     type: FETCH_PENDING_FRIEND_REQUESTS,
-    payload: response.data
+    payload: allFriendRequestsWithProfiles
   });
+};
+
+export const rejectFriendRequest = (
+  requestId,
+  friendRequest
+) => async dispatch => {
+  const response = await rejectPendingFriendRequest(requestId, friendRequest);
+};
+
+export const acceptFriendRequest = (
+  requestId,
+  friendRequest
+) => async dispatch => {
+  const response = await acceptPendingFriendRequest(requestId, friendRequest);
+};
+
+export const clearViewedProfile = () => {
+  return { type: CLEAR_VIEWED_PROFILE };
 };
 
 export const setActiveBookmarkIndex = id => {
