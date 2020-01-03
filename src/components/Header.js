@@ -113,7 +113,8 @@ const mapStateToProps = state => {
     username: state.auth.username,
     userProfileId: state.auth.profileId,
     thumbnailImageUrl: state.auth.thumbnailImageUrl,
-    activeBookmarkIndex: state.navigation.activeBookmarkId
+    activeBookmarkIndex: state.navigation.activeBookmarkId,
+    userProfile: state.userProfileData
   };
 };
 

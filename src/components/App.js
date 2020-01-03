@@ -69,7 +69,7 @@ class App extends React.Component {
               <ToastContainer position={toast.POSITION.TOP_RIGHT} />
               <button
                 onClick={() =>
-                  history.push("/profile/c5c788dd-8dd8-4a44-a0e8-d9a5294c212d")
+                  history.push("/profile/5cd2edd8-31df-42fb-8867-0d74525e0138")
                 }
               >
                 TEST
@@ -95,7 +95,8 @@ class App extends React.Component {
 const mapStateToProps = state => {
   return {
     isSignedIn: state.auth.isSignedIn,
-    notifications: Object.values(state.notifications)
+    notifications: Object.values(state.notifications),
+    userProfile: state.userProfileData
   };
 };
 

@@ -213,11 +213,12 @@ class Profile extends React.Component {
   };
 
   renderPendingFriendsRequests() {
+    
     return (
       <div className="ui cards">
         {this.props.pendingFriendRequests.map(friendRequest => {
           return (
-            <div className="card">
+            <div className="card" key={friendRequest.friendRequest.id}>
               <div className="content">
                 <img
                   className="right floated mini ui image"
@@ -246,7 +247,7 @@ class Profile extends React.Component {
                   <div className="ui two buttons">
                     <div
                       className="ui basic green button"
-                      onClick={this.acceptFriendRequest(
+                      onClick={() => this.props.acceptFriendRequest(
                         friendRequest.friendRequest.id,
                         friendRequest.friendRequest
                       )}
@@ -255,7 +256,7 @@ class Profile extends React.Component {
                     </div>
                     <div
                       className="ui basic red button"
-                      onClick={this.rejectFriendRequest(
+                      onClick={() => this.props.rejectFriendRequest(
                         friendRequest.friendRequest.id,
                         friendRequest.friendRequest
                       )}

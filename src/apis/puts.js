@@ -7,7 +7,7 @@ export const updateMeme = meme => {
 
 export const rejectPendingFriendRequest = (requestId, friendRequest) => {
   return axios.put(
-    `friendsRequests/updateStateOfRequest/requestId=${requestId}&state=Rejected`,
+    `friendRequests/updateStateOfRequest/requestId=${requestId}&state=Rejected`,
     friendRequest,
     prepareDataWithToken()
   );
@@ -15,7 +15,7 @@ export const rejectPendingFriendRequest = (requestId, friendRequest) => {
 
 export const acceptPendingFriendRequest = (requestId, friendRequest) => {
   return axios.put(
-    `friendsRequests/updateStateOfRequest/requestId=${requestId}&state=Accepted`,
+    `friendRequests/updateStateOfRequest/requestId=${requestId}&state=Accepted`,
     friendRequest,
     prepareDataWithToken()
   );

@@ -48,7 +48,6 @@ export const signIn = (email, password) => async dispatch => {
   await login(email, password)
     .then(response => {
       dispatch(loginSuccess(response.data));
-      history.push("/list");
     })
     .catch(error => loginError(error));
 };
@@ -66,6 +65,7 @@ const getUserDataAfterLogin = id => async dispatch => {
   Cookies.set("thumbnailImageUrl", response.thumbnailImageUrl);
 
   dispatch(saveUserData(response.data));
+  
 };
 
 export const loginSuccess = (data, type) => async dispatch => {
@@ -75,6 +75,8 @@ export const loginSuccess = (data, type) => async dispatch => {
   Cookies.set("userTokenExpirationTime", expirationTime);
   Cookies.set("profileId", profileId);
 
+  history.push("/list");
+
   dispatch([
     getUserDataAfterLogin(id),
     {
@@ -83,7 +85,6 @@ export const loginSuccess = (data, type) => async dispatch => {
     }
   ]);
 
-  history.push("/list");
   history.push("/list");
 };
 
@@ -150,10 +151,11 @@ export const registerUser = ({
 };
 
 export const saveUserData = data => {
+  
   return {
     type: SAVE_USER_DATA,
     payload: data
-  };
+  };  
 };
 
 //region MEMES
@@ -211,22 +213,25 @@ export const fetchFriendsForSpecificUser = userProfileId => async dispatch => {
 
 export const fetchAllPendingFriendRequests = userProfileId => async dispatch => {
   const response = await getAllPendingFriendRequests(userProfileId);
-  var allFriendRequestsWithProfiles = await response.data.map(
+  var allFriendRequestsWithProfiles = response.data.map(
     async friendRequest => {
       var friendProfile = await getUserProfileDataByUserProfileId(
         friendRequest.senderId
       );
       return {
         friendRequest: friendRequest,
-        friendRequestSenderProfile: friendProfile
+        friendRequestSenderProfile: friendProfile.data
       };
     }
   );
-
-  dispatch({
-    type: FETCH_PENDING_FRIEND_REQUESTS,
-    payload: allFriendRequestsWithProfiles
-  });
+  
+  Promise.all(allFriendRequestsWithProfiles).then(data => {
+    dispatch({
+      type: FETCH_PENDING_FRIEND_REQUESTS,
+      payload: data
+    });
+  })
+  
 };
 
 export const rejectFriendRequest = (
