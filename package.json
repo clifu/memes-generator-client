@@ -7,6 +7,7 @@
     "axios": "^0.19.0",
     "formik": "^2.0.8",
     "history": "^4.10.1",
+    "image-to-base64": "^2.0.1",
     "js-cookie": "^2.2.1",
     "lodash": "^4.17.15",
     "memo": "^0.2.2",

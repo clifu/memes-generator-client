@@ -44,7 +44,7 @@ class App extends React.Component {
 
   componentDidMount() {
     const hubConnection = new HubConnectionBuilder()
-      .withUrl("https://localhost:44353/notification")
+      .withUrl("https://localhost:5001/notification")
       .build();
 
     this.setState({ hubConnection }, () => {
