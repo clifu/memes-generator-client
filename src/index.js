@@ -3,23 +3,21 @@ import ReactDOM from "react-dom";
 import App from "./components/App";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware, compose } from "redux";
-import reduxThunk from "redux-thunk";
+import { createLogger } from 'redux-logger'
+import thunkMiddleware from 'redux-thunk'
 import reducers from "./reducers";
 import reduxMulti from 'redux-multi'
-import { batchedSubscribe } from 'redux-batched-subscribe'
 import * as serviceWorker from "./serviceWorker";
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const loggerMiddleware = createLogger()
 
-const createStoreWithMiddleware = composeEnhancers(applyMiddleware(
-    reduxThunk,
-    reduxMulti,
-))(createStore);
-
-const createStoreWithBatching = batchedSubscribe(
-    fn => fn()
-)(createStoreWithMiddleware);
-
-const store = createStoreWithBatching(reducers);
+const store = createStore(
+  reducers,
+  composeEnhancers(applyMiddleware(    
+    thunkMiddleware,
+    loggerMiddleware,
+    reduxMulti))
+);
 
 ReactDOM.render(
   <Provider store={store}>
