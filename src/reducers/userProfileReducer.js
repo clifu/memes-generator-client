@@ -1,5 +1,5 @@
 import initialState from "./initialState";
-import { SAVE_USER_DATA } from "../actions/types";
+import { SAVE_USER_DATA, FETCH_SEARCH_USERS } from "../actions/types";
 import _ from "lodash";
 
 export default (state = initialState.userProfileData, action) => {
@@ -13,6 +13,11 @@ export default (state = initialState.userProfileData, action) => {
         profileImageUrl: action.payload.profileImageUrl,
         thumbnailImageUrl: action.payload.thumbnailImageUrl
       };
+    case FETCH_SEARCH_USERS:
+      return {
+        ...state,
+        searchUsersProfiles: action.payload
+    };
     default:
       return { ...state };
   }

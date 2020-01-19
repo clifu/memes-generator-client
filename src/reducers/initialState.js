@@ -20,7 +20,8 @@ const initialState = {
         profileImageUrl: null,
         thumbnailImageUrl: null,
         friends: [],
-        myMemes: []
+        myMemes: [],
+        searchUsersProfiles: []
     },
     viewedProfileData: {
         userProfileId: null,

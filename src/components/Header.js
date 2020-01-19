@@ -1,7 +1,7 @@
 import React from "react";
 import history from "../history";
 import {connect} from "react-redux";
-import {setActiveBookmarkIndex, signIn, signOut} from "../actions";
+import { signIn, signOut, setActiveBookmarkIndex, fetchSearchUsers } from "../actions";
 import {Search} from 'semantic-ui-react';
 
 const navItems = [
@@ -23,16 +23,9 @@ class Header extends React.Component {
     constructor(props) {
         super(props);
         this.handleSearchChange = this.handleSearchChange.bind(this);
+        this.handleResultSelect = this.handleResultSelect.bind(this);
         this.state = ({
-            results: [{
-                "title": "Adi"
-            },
-                {
-                    "title": "User Test"
-                },
-                {
-                    "title": "AUI"
-                }],
+          results: []
         });
     }
 
@@ -108,30 +101,34 @@ class Header extends React.Component {
     }
 
     handleSearchChange() {
-        var that = this;
+      let searchString = document.getElementById('usersSearch').value;
+      if (searchString.length >= 3) {
+        this.props.fetchSearchUsers(searchString);
+        this.setState({
+          results: this.props.searchUsersProfiles.map(function(uProf) {
+            let result = {
+              "title": uProf.firstName + ' ' + uProf.lastName,
+              "profileId": uProf.id
+            };
+            return result;
+          })
+        });
+      }
+    }
 
-        // that.setState({
-        //   results: [{
-        //     "title": "Roob, Cummerata and Watsica"
-        //   },
-        //   {
-        //     "title": "Stanton, Kessler and Walsh"
-        //   },
-        //   {
-        //     "title": "Boyle, Schuppe and Renner"
-        //   }]
-        // });
+    handleResultSelect(e, {result}) {
+      history.push(`/profile/` + result.profileId);
     }
 
     render() {
         var searchProps = {
-            input: <input className='ui search transparent' placeholder="Wyszukaj znajomych"/>,
-            // open: this.state.open,
-            // onFocus: this.handleFocusSearch,
-            // onBlur: this.handleBlurSearch,
-            onSearchChange: this.handleSearchChange,
-            results: this.state.results,
-            // onResultSelect: this.handleResultSelect,
+          input: <input id="usersSearch" className='ui search transparent' placeholder="Wyszukaj znajomych"/>,
+          // open: this.state.open,
+          // onFocus: this.handleFocusSearch,
+          // onBlur: this.handleBlurSearch,
+          onSearchChange: this.handleSearchChange,
+          results: this.state.results,
+          onResultSelect: this.handleResultSelect,
         };
 
         return (
@@ -168,12 +165,14 @@ const mapStateToProps = state => {
         userProfileId: state.auth.profileId,
         thumbnailImageUrl: state.auth.thumbnailImageUrl,
         activeBookmarkIndex: state.navigation.activeBookmarkId,
-        userProfile: state.userProfileData
+        userProfile: state.userProfileData,
+        searchUsersProfiles: state.userProfileData.searchUsersProfiles
     };
 };
 
 export default connect(mapStateToProps, {
     signIn,
     signOut,
-    setActiveBookmarkIndex
+    setActiveBookmarkIndex,
+    fetchSearchUsers
 })(Header);

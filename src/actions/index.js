@@ -16,7 +16,8 @@ import {
     REGISTER_USER_SUCESS,
     SAVE_USER_DATA,
     SIGN_IN_SUCCESS,
-    SIGN_OUT
+    SIGN_OUT,
+    FETCH_SEARCH_USERS
 } from "./types";
 import login from "../apis/login";
 import {
@@ -26,7 +27,8 @@ import {
     getMemes,
     getMemesForSpecificUser,
     getUserProfileDataByAccountId,
-    getUserProfileDataByUserProfileId
+    getUserProfileDataByUserProfileId,
+    getSearchUsers
 } from "../apis/gets";
 import {generateMemeImage, postMeme} from "../apis/posts";
 import {acceptPendingFriendRequest, rejectPendingFriendRequest, updateMeme} from "../apis/puts";
@@ -218,6 +220,11 @@ export const fetchUserProfile = userProfileId => async dispatch => {
     const response = await getUserProfileDataByUserProfileId(userProfileId);
     dispatch({type: FETCH_USER_PROFILE, payload: response.data});
     history.push(`/profile/${userProfileId}`);
+};
+
+export const fetchSearchUsers = searchString => async dispatch => {
+    const response = await getSearchUsers(searchString);
+    dispatch({type: FETCH_SEARCH_USERS, payload: response.data});
 };
 
 export const fetchMemesForSpecificUser = userProfileId => async dispatch => {

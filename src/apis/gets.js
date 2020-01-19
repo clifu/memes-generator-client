@@ -35,6 +35,10 @@ export const getUserProfileDataByUserProfileId = id => {
   return axios.get(`/users/profileId=${id}`, prepareDataWithToken());
 };
 
+export const getSearchUsers = searchString => {
+  return axios.get(`/users/searchString=${searchString}`, prepareDataWithToken());
+};
+
 export const getAllPendingFriendRequests = userId => {
   return axios.get(
     `/friendRequests/myRequests/userId=${userId}`,
