@@ -140,15 +140,15 @@ class Header extends React.Component {
                             <Search {...searchProps} />
                         </div> : null}
 
-                        {/* <div className="item">
-              <div className="ui search" onChange={() => this.handleSearchChange()}>
-                <div className="ui transparent inverted icon input">
-                  <i className="search icon"></i>
-                  <input type="text" placeholder="Wyszukaj znajomych"/>
-                </div>
-                <div className="results"></div>
-              </div>            
-            </div> */}
+                        {/* nice styling: <div className="item">
+                              <div className="ui search" onChange={() => this.handleSearchChange()}>
+                                <div className="ui transparent inverted icon input">
+                                  <i className="search icon"></i>
+                                  <input type="text" placeholder="Wyszukaj znajomych"/>
+                                </div>
+                                <div className="results"></div>
+                              </div>            
+                            </div> */}
 
                         {this.renderAuthButton()}
                     </div>
