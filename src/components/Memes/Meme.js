@@ -17,6 +17,10 @@ const Meme = props => {
     //     return this.props.rateMeme(rate);
     // };
 
+    function getProfileThumbnailImage() {
+        return (meme.profile && meme.profile.thumbnailImageUrl) ? meme.profile.thumbnailImageUrl : profileImagePlaceholder;
+    }
+
     return (
         <div className="ui centered card">
             <div className="image">
@@ -38,11 +42,12 @@ const Meme = props => {
                 </div> : null}
 
                 <img className="ui avatar image"
-                     src={(meme.profile.thumbnailImageUrl ? meme.profile.thumbnailImageUrl : profileImagePlaceholder)}
+                     src={getProfileThumbnailImage()}
                      alt=""/>
                 {meme.profile && meme.profile.username}
             </div>
             <div className="content">
+                <a className="header">{meme.title}</a>
                 <div className="ui description">
                     {meme.description.length > 150 ? meme.description.substring(0, 150) + " ..." : meme.description}
                 </div>

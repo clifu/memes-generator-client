@@ -1,5 +1,5 @@
 class MemeDTO {
-    constructor(id, title, description, imageUrl, imageData, profileId) {
+    constructor(id, title, description, imageUrl, profileId, imageData) {
         this.id = id;
         this.title = title;
         this.description = description;

@@ -9,10 +9,10 @@ import {
     FETCH_MEME,
     FETCH_MEMES,
     FETCH_MEMES_FOR_USER_PROFILE,
-    RATE_MEME,
     FETCH_PENDING_FRIEND_REQUESTS,
     FETCH_USER_PROFILE,
     GENERATE_MEME_IMAGE,
+    RATE_MEME,
     REGISTER_USER_SUCESS,
     SAVE_USER_DATA,
     SIGN_IN_SUCCESS,
@@ -196,7 +196,7 @@ export function rateMeme(data) {
 }
 
 export const editMeme = (postId, formValues) => async dispatch => {
-    var post = new MemeDTO(postId, formValues.title, formValues.description);
+    const post = new MemeDTO(postId, formValues.title, formValues.description, formValues.imageUrl, formValues.profileId);
     const response = await updateMeme(post);
     dispatch({type: EDIT_MEME, payload: post});
     history.push("/list");

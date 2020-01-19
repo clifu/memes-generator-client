@@ -30,7 +30,6 @@ class MemeForm extends React.Component {
                 <img src={template.url} onClick={() => this.setSelectedTemplate(template)}/>
             </div>
         </div>)
-
     }
 
     renderSelectedTemplate() {
@@ -135,7 +134,11 @@ class MemeForm extends React.Component {
     renderForm() {
         let post;
         if (this.props.initialValues) {
-            post = new MemeDTO(null, this.props.initialValues.title, this.props.initialValues.description)
+            post = new MemeDTO(null,
+                this.props.initialValues.title,
+                this.props.initialValues.description,
+                this.props.initialValues.imageUrl,
+            );
         }
         return (<Formik
             initialValues={

@@ -19,18 +19,15 @@ class MemeEdit extends React.Component {
     };
 
     render() {
-        if (!this.props.post) {
-            return <div>Loading...</div>;
-        }
-        return (
-            <div>
+        return this.props.post
+            ? <div>
                 <h3>Edycja mema</h3>
                 <MemeForm
                     onSubmit={this.onSubmit}
-                    initialValues={_.pick(this.props.post, "title", "description")}
+                    initialValues={_.pick(this.props.post, "title", "description", "imageUrl")}
                     onCancelButtonClick={this.onCancel}/>
             </div>
-        );
+            : <div>Loading...</div>;
     }
 }
 
