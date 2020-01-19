@@ -31,20 +31,14 @@ class MemeList extends React.Component {
 
     renderList() {
         return this.props.posts.map((post, idx) => {
-            return <Meme data={post} key={idx}/>;
+            return <Meme data={post} key={idx} loggedUserProfileId={this.props.loggedUserProfileId}/>;
         });
     }
 
     render() {
         return (
             <div className="ui container">
-                {/*<div className="ui two column centered grid">*/}
-                {/*    <div className="column">*/}
                 {this.renderList()}
-
-                {/*    </div>*/}
-                {/*</div>*/}
-
                 {this.renderCreateButton()}
             </div>
         );
@@ -53,6 +47,7 @@ class MemeList extends React.Component {
 
 const mapStateToProps = state => {
     return {
+        loggedUserProfileId: state.auth.profileId,
         posts: Object.values(state.meme)
     };
 };

@@ -1,10 +1,11 @@
 import React from "react";
 import {Link} from "react-router-dom";
-import LazyLoad from 'react-lazy-load';
 
 const Meme = props => {
     //Way of assigning data to postDTO class
     var meme = props.data;
+    const isOwner = props.loggedUserProfileId === meme.profileId;
+    const profileImagePlaceholder = 'https://www.waspcom.com/wp-content/uploads/2014/10/user-placeholder-circle-1.png';
 
     // this.addMemeRate = function (id, positive) {
     //
@@ -23,7 +24,7 @@ const Meme = props => {
             </div>
 
             <div className="content">
-                <div className="ui right floated icon buttons">
+                {isOwner ? <div className="ui right floated icon buttons">
                     <Link
                         to={`/list/edit/${meme.id}`}
                         className="ui button">
@@ -34,13 +35,11 @@ const Meme = props => {
                         to={`/list/delete/${meme.id}`}>
                         <i className="trash alternate outline icon"/>
                     </Link>
-                </div>
+                </div> : null}
 
-                <LazyLoad
-                    debounce={false}
-                    throttle={250}>
-                    <img className="ui avatar image" src={meme.profile && meme.profile.thumbnailImageUrl} alt="image"/>
-                </LazyLoad>
+                <img className="ui avatar image"
+                     src={(meme.profile.thumbnailImageUrl ? meme.profile.thumbnailImageUrl : profileImagePlaceholder)}
+                     alt=""/>
                 {meme.profile && meme.profile.username}
             </div>
             <div className="content">
