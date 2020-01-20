@@ -8,7 +8,7 @@ export const postMeme = data => {
     return axios.post("/Posts", post, prepareDataWithToken());
 };
 
-export const rateMeme = data => {
+export const postRateMeme = data => {
     return axios.post("/Rates", data, prepareDataWithToken());
 };
 

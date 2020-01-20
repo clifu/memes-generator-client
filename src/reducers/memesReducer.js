@@ -1,4 +1,4 @@
-import {CREATE_MEME, DELETE_MEME, EDIT_MEME, FETCH_MEME, FETCH_MEMES} from "../actions/types";
+import {CREATE_MEME, DELETE_MEME, EDIT_MEME, FETCH_MEME, FETCH_MEMES, RATE_MEME} from "../actions/types";
 import _ from "lodash";
 import initialState from "./initialState";
 
@@ -14,6 +14,11 @@ export default (state = initialState.memes, action) => {
             return {...state, [action.payload.id]: action.payload};
         case DELETE_MEME:
             return _.omit(state, action.payload);
+        case RATE_MEME:
+            return action.payload.positive
+                ? {...state, [action.payload.id] : {...state[action.payload.id], positiveRates: state[action.payload.id].positiveRates + 1}}
+                : {...state, [action.payload.id] : {...state[action.payload.id], negativeRates: state[action.payload.id].negativeRates + 1}}; 
+            
         default:
 
             return{...state};

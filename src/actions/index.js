@@ -30,7 +30,7 @@ import {
     getUserProfileDataByUserProfileId,
     getSearchUsers
 } from "../apis/gets";
-import {generateMemeImage, postMeme} from "../apis/posts";
+import {generateMemeImage, postMeme, postRateMeme} from "../apis/posts";
 import {acceptPendingFriendRequest, rejectPendingFriendRequest, updateMeme} from "../apis/puts";
 import {deleteThatMeme} from "../apis/deletions";
 import register from "../apis/register";
@@ -189,11 +189,13 @@ export function createMeme(data) {
 
 export function rateMeme(data) {
     return async dispatch => {
-        const response = await rateMeme(data);
-        dispatch({
+        await postRateMeme(data)
+        .then(() => dispatch({
             type: RATE_MEME,
-            payload: response.data
-        });
+            payload: {id: data.postId, positive: data.positiveRate}
+        }))
+        .catch(error => {console.log(error); toast.error(error.response.data)})
+        
     };
 }
 
