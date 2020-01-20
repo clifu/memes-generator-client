@@ -35,14 +35,22 @@ class MemeForm extends React.Component {
     renderSelectedTemplate() {
         return (
             <div className="ui bordered centered rounded selected-template image">
-                {console.log('Imidż URL: ' + this.props.imageUrl)}
-                <img src={this.props.imageUrl ? this.props.imageUrl : this.state.selectedTemplateUrl}/>
+                {this.getImageToPreview() ? <img src={this.getImageToPreview()} alt="preview"/> : null}
             </div>
         );
     }
 
+    getImageToPreview() {
+        if (this.props.imageUrl)
+            return this.props.imageUrl;
+        else
+            return (this.props.initialValues && this.props.initialValues.imageUrl)
+                ? this.props.initialValues.imageUrl
+                : this.state.selectedTemplateUrl;
+    }
+
     onSaveButtonClick = formikValues => {
-        formikValues.imageUrl = this.props.imageUrl;
+        formikValues.imageUrl = this.props.imageUrl ? this.props.imageUrl : this.props.initialValues.imageUrl;
         formikValues.profileId = this.props.loggedUserProfileId;
         this.props.onSubmit(formikValues);
     };
@@ -64,7 +72,6 @@ class MemeForm extends React.Component {
     };
 
     componentDidMount() {
-        // this.props.fetchMemes();
         fetch('https://api.imgflip.com/get_memes')
             .then(data => data.json())
             .then((data) => {
@@ -78,7 +85,7 @@ class MemeForm extends React.Component {
     }
 
     canSave() {
-        return (this.props.imageUrl != null);
+        return (this.props.imageUrl != null || (this.props.initialValues && this.props.initialValues.imageUrl != null));
     }
 
     renderActions(handleSubmit) {
@@ -116,7 +123,7 @@ class MemeForm extends React.Component {
                     {this.renderTemplateSegment()}
                     <div className="ui two column grid">
                         <div className="column">
-                            {this.state.selectedTemplateUrl ? this.renderSelectedTemplate() : null}
+                            {this.renderSelectedTemplate()}
                         </div>
                         <div className="column">
                             <div className="segment">
