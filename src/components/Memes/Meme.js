@@ -1,7 +1,7 @@
 import React from "react";
 import {Link} from "react-router-dom";
-import { connect } from "react-redux";
-import { rateMeme } from "../../actions";
+import {connect} from "react-redux";
+import {rateMeme} from "../../actions";
 
 const Meme = props => {
     //Way of assigning data to postDTO class
@@ -49,13 +49,19 @@ const Meme = props => {
             </div>
             <div className="content">
                 <a className="header">{meme.title}</a>
+
+                <div className="meta">
+                    <span className="date">
+                        Dodano: {meme.creationDate ? new Date(meme.creationDate).toLocaleDateString() : null}
+                    </span>
+                </div>
                 <div className="ui description">
                     {meme.description && meme.description.length > 150 ? meme.description.substring(0, 150) + " ..." : meme.description}
                 </div>
             </div>
 
             <div className="ui two bottom attached buttons">
-                <div className="ui labeled green icon button" onClick={() => addMemeRate(meme.id, true)}> 
+                <div className="ui labeled green icon button" onClick={() => addMemeRate(meme.id, true)}>
                     <i className="thumbs up icon"/> {meme.positiveRates}
                 </div>
                 <div className="ui right labeled red icon button" onClick={() => addMemeRate(meme.id, false)}>
@@ -66,4 +72,4 @@ const Meme = props => {
     );
 };
 
-export default connect(null, { rateMeme })(Meme);
+export default connect(null, {rateMeme})(Meme);
