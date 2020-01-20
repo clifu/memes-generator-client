@@ -7,12 +7,11 @@ import Meme from "./Meme";
 import _ from "lodash";
 
 class MemeList extends React.Component {
-    state = {
-        memes: []
-    };
 
     componentDidMount() {
-        this.props.fetchMemes();
+        if (!this.props.memes) {
+            this.props.fetchMemes();
+        }
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -30,9 +29,15 @@ class MemeList extends React.Component {
     }
 
     renderList() {
-        return this.props.posts.map((post, idx) => {
-            return <Meme data={post} key={idx} loggedUserProfileId={this.props.loggedUserProfileId}/>;
-        });
+        if (!this.props.memes) {
+            return this.props.posts.map((post, idx) => {
+                return <Meme data={post} key={idx} loggedUserProfileId={this.props.loggedUserProfileId}/>;
+            });
+        } else {
+            return this.props.memes.map((post, idx) => {
+                return <Meme data={post} key={idx} loggedUserProfileId={this.props.loggedUserProfileId}/>;
+            });
+        }
     }
 
     render() {

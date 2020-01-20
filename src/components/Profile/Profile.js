@@ -24,31 +24,31 @@ class Profile extends React.Component {
     };
   }
 
-  shouldComponentUpdate() {
-    if (
-      this.props.viewedProfileId &&
-      this.props.viewedProfileId !== document.location.pathname.split(`/`)[2]
-    ) {
-      this.props.clearViewedProfile();
-      this.props.fetchUserProfile(document.location.pathname.split(`/`)[2]);
-      this.props.fetchFriendsForSpecificUser(
-        document.location.pathname.split(`/`)[2]
-      );
-      this.props.fetchMemesForSpecificUser(
-        document.location.pathname.split(`/`)[2]
-      );
-      if (
-        document.location.pathname.split(`/`)[2] ===
-        this.props.loggedUserProfileId
-      ) {
-        this.props.fetchAllPendingFriendRequests(
-          document.location.pathname.split(`/`)[2]
-        );
-      }
-    }
+  // shouldComponentUpdate() {
+  //   if (
+  //     this.props.viewedProfileId &&
+  //     this.props.viewedProfileId !== this.props.match.params.id
+  //   ) {
+  //     this.props.clearViewedProfile();
+  //     this.props.fetchUserProfile(this.props.match.params.id);
+  //     this.props.fetchFriendsForSpecificUser(
+  //       this.props.match.params.id
+  //     );
+  //     this.props.fetchMemesForSpecificUser(
+  //       this.props.match.params.id
+  //     );
+  //     if (
+  //       this.props.match.params.id ===
+  //       this.props.loggedUserProfileId
+  //     ) {
+  //       this.props.fetchAllPendingFriendRequests(
+  //         this.props.match.params.id
+  //       );
+  //     }
+  //   }
 
-    return true;
-  }
+  //   return true;
+  // }
 
   componentWillMount() {
     this.props.fetchUserProfile(this.props.match.params.id);
@@ -107,7 +107,7 @@ class Profile extends React.Component {
 
   renderEditButtonsWithUsernameRow() {
     if (
-      document.location.pathname.split(`/`)[2] ===
+      this.props.match.params.id ===
       this.props.loggedUserProfileId
     )
       return (
@@ -147,7 +147,7 @@ class Profile extends React.Component {
     return (
       <div
         className={`ui ${
-          document.location.pathname.split(`/`)[2] ===
+          this.props.match.params.id ===
           this.props.loggedUserProfileId
             ? "three"
             : "two"
@@ -156,7 +156,7 @@ class Profile extends React.Component {
         {this.tabItems.map((item, idx) => {
           if (
             idx === 2 &&
-            document.location.pathname.split(`/`)[2] ===
+            this.props.match.params.id ===
               this.props.loggedUserProfileId
           ) {
             return (
@@ -203,7 +203,7 @@ class Profile extends React.Component {
   renderData = () => {
     if (this.state.activeTabIndex === 0) {
       //memes
-      return <MemeList />;
+      return <MemeList memes={this.props.memes}/>;
     } else if (this.state.activeTabIndex === 1) {
       return this.renderFriendsList();
     } else if (this.state.activeTabIndex === 2) {

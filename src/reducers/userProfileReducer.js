@@ -11,7 +11,8 @@ export default (state = initialState.userProfileData, action) => {
         firstName: action.payload.firstName,
         lastName: action.payload.lastName,
         profileImageUrl: action.payload.profileImageUrl,
-        thumbnailImageUrl: action.payload.thumbnailImageUrl
+        thumbnailImageUrl: action.payload.thumbnailImageUrl,
+        memes: action.payload.posts
       };
     case FETCH_SEARCH_USERS:
       return {
