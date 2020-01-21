@@ -17,7 +17,8 @@ import {
     SAVE_USER_DATA,
     SIGN_IN_SUCCESS,
     SIGN_OUT,
-    FETCH_SEARCH_USERS
+    FETCH_SEARCH_USERS,
+    ADD_FRIEND
 } from "./types";
 import login from "../apis/login";
 import {
@@ -30,7 +31,7 @@ import {
     getUserProfileDataByUserProfileId,
     getSearchUsers
 } from "../apis/gets";
-import {generateMemeImage, postMeme, postRateMeme} from "../apis/posts";
+import {generateMemeImage, postMeme, postRateMeme, postFriendRequest} from "../apis/posts";
 import {acceptPendingFriendRequest, rejectPendingFriendRequest, updateMeme} from "../apis/puts";
 import {deleteThatMeme} from "../apis/deletions";
 import register from "../apis/register";
@@ -237,6 +238,11 @@ export const fetchMemesForSpecificUser = userProfileId => async dispatch => {
 export const fetchFriendsForSpecificUser = userProfileId => async dispatch => {
     const response = await getFriendsOfSpecificUser(userProfileId);
     dispatch({type: FETCH_FRIENDS_FOR_USER_PROFILE, payload: response.data});
+};
+
+export const addFriend = firendRequest => async dispatch => {
+    const response = await postFriendRequest(firendRequest);
+    dispatch({type: ADD_FRIEND, payload: response.data});
 };
 
 export const fetchAllPendingFriendRequests = userProfileId => async dispatch => {
