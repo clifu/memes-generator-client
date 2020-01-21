@@ -27,6 +27,10 @@ export const generateMemeImage = data => {
     });
 };
 
+export const postFriendRequest = data => {
+    return axios.post("/FriendRequests", data, prepareDataWithToken());
+};
+
 function prepareDataWithToken() {
     return {
         headers: {

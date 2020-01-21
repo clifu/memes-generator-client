@@ -8,13 +8,15 @@ import {
   fetchAllPendingFriendRequests,
   rejectFriendRequest,
   acceptFriendRequest,
-  clearViewedProfile
+  clearViewedProfile,
+  addFriend
 } from "../../actions";
 import { Link } from "react-router-dom";
 
 class Profile extends React.Component {
   constructor(props) {
     super(props);
+    this.handleAddFriend = this.handleAddFriend.bind(this);
 
     this.state = {
       activeTabIndex: 0,
@@ -127,17 +129,33 @@ class Profile extends React.Component {
       );
     else {
       return (
-        <div
-          style={{
-            textAlign: "center",
-            justifyContent: "space-between"
-          }}
-        >
-          {this.props.username}
+        <div>
+          <div class="ui segment" style={{textAlign: "center"}}>
+            <button className="ui button" onClick={this.handleAddFriend}>
+            <i class="icon user"></i>
+              Dodaj znajomego
+            </button>
+          </div>
+          <div
+            style={{
+              textAlign: "center",
+              justifyContent: "space-between"
+            }}
+          >
+            {this.props.username}
+          </div>
         </div>
       );
     }
   }
+
+  handleAddFriend() {
+    let friendRequest = {
+      senderId: this.props.loggedUserProfileId,
+      receiverId: this.props.match.params.id
+    }
+    this.props.addFriend(friendRequest);
+  };
 
   activateItemOnClick = id => {
     this.setState({ activeTabIndex: id });
@@ -349,5 +367,6 @@ export default connect(mapStateToProps, {
   fetchAllPendingFriendRequests,
   acceptFriendRequest,
   rejectFriendRequest,
-  clearViewedProfile
+  clearViewedProfile,
+  addFriend
 })(Profile);
