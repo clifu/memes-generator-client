@@ -4,7 +4,7 @@ import Cookies from "js-cookie";
 import ImgflipRequestDTO from "../DTO/ImgflipRequestDTO";
 
 export const postMeme = data => {
-    const post = new MemeDTO(null, data.title, data.description, data.imageUrl, null, data.profileId);
+    const post = new MemeDTO(null, data.title, data.description, data.imageUrl, data.profileId);
     return axios.post("/Posts", post, prepareDataWithToken());
 };
 
