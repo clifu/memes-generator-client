@@ -22,7 +22,7 @@ class MemeList extends React.Component {
         return (
             <div style={{textAlign: "right"}}>
                 <Link to="/postCreate" className="ui button primary">
-                    Create post
+                    Stwórz mema
                 </Link>
             </div>
         );
@@ -44,7 +44,11 @@ class MemeList extends React.Component {
         return (
             <div className="ui container">
                 {this.renderList()}
-                {this.renderCreateButton()}
+                {
+                    this.props.loggedUserProfileId 
+                        ? this.renderCreateButton()
+                        : null
+                }
             </div>
         );
     }
